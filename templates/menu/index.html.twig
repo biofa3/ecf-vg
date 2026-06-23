@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos menus - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Nos menus</h1>
+
+    <!-- Filtres -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Filtrer les menus</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Prix maximum</label>
+                    <input type="number" id="filtre-prix-max" class="form-control" placeholder="Ex: 50">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Thème</label>
+                    <select id="filtre-theme" class="form-select">
+                        <option value="">Tous les thèmes</option>
+                        {% for theme in themes %}
+                            <option value="{{ theme.libelle }}">{{ theme.libelle }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Régime</label>
+                    <select id="filtre-regime" class="form-select">
+                        <option value="">Tous les régimes</option>
+                        {% for regime in regimes %}
+                            <option value="{{ regime.libelle }}">{{ regime.libelle }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Nombre de personnes min.</label>
+                    <input type="number" id="filtre-personnes" class="form-control" placeholder="Ex: 10">
+                </div>
+            </div>
+            <button class="btn btn-secondary mt-3" id="reset-filtres">Réinitialiser</button>
+        </div>
+    </div>
+
+    <!-- Liste des menus -->
+    <div class="row" id="liste-menus">
+        {% for menu in menus %}
+        <div class="col-md-4 mb-4 menu-card"
+             data-prix="{{ menu.prixParPersonne }}"
+             data-theme="{{ menu.theme ? menu.theme.libelle : '' }}"
+             data-regime="{{ menu.regime ? menu.regime.libelle : '' }}"
+             data-personnes="{{ menu.nombrePersonneMinimum }}">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ menu.titre }}</h5>
+                    <p class="card-text">{{ menu.description|slice(0, 150) }}...</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Personnes min. :</strong> {{ menu.nombrePersonneMinimum }}</li>
+                        <li><strong>Prix par personne :</strong> {{ menu.prixParPersonne }}€</li>
+                        {% if menu.theme %}
+                        <li><strong>Thème :</strong> {{ menu.theme.libelle }}</li>
+                        {% endif %}
+                        {% if menu.regime %}
+                        <li><strong>Régime :</strong> {{ menu.regime.libelle }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_menu_detail', {id: menu.id}) }}" class="btn btn-primary w-100">
+                        Voir le détail
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <p>Aucun menu disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function filtrerMenus() {
+    const prixMax = document.getElementById('filtre-prix-max').value;
+    const theme = document.getElementById('filtre-theme').value.toLowerCase();
+    const regime = document.getElementById('filtre-regime').value.toLowerCase();
+    const personnes = document.getElementById('filtre-personnes').value;
+
+    document.querySelectorAll('.menu-card').forEach(card => {
+        const cardPrix = parseFloat(card.dataset.prix);
+        const cardTheme = card.dataset.theme.toLowerCase();
+        const cardRegime = card.dataset.regime.toLowerCase();
+        const cardPersonnes = parseInt(card.dataset.personnes);
+
+        let visible = true;
+
+        if (prixMax && cardPrix > parseFloat(prixMax)) visible = false;
+        if (theme && cardTheme !== theme) visible = false;
+        if (regime && cardRegime !== regime) visible = false;
+        if (personnes && cardPersonnes > parseInt(personnes)) visible = false;
+
+        card.style.display = visible ? 'block' : 'none';
+    });
+}
+
+document.getElementById('filtre-prix-max').addEventListener('input', filtrerMenus);
+document.getElementById('filtre-theme').addEventListener('change', filtrerMenus);
+document.getElementById('filtre-regime').addEventListener('change', filtrerMenus);
+document.getElementById('filtre-personnes').addEventListener('input', filtrerMenus);
+
+document.getElementById('reset-filtres').addEventListener('click', () => {
+    document.getElementById('filtre-prix-max').value = '';
+    document.getElementById('filtre-theme').value = '';
+    document.getElementById('filtre-regime').value = '';
+    document.getElementById('filtre-personnes').value = '';
+    filtrerMenus();
+});
+</script>
+{% endblock %}
