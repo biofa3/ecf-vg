@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="shield"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">Administration</h6>
+                    <small class="text-muted">{{ app.user.prenom }} {{ app.user.nom }}</small>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom">
+                    <a href="{{ path('app_espace_admin') }}" class="list-group-item list-group-item-action active">
+                        <i data-feather="bar-chart-2" class="me-2"></i> Tableau de bord
+                    </a>
+                    <a href="{{ path('app_admin_employe_new') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="user-plus" class="me-2"></i> Créer un employé
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            <h2 class="fw-bold mb-4">Tableau de bord</h2>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm text-center py-4">
+                        <div class="text-success fw-bold" style="font-size:2rem;">{{ ca|number_format(2, ',', ' ') }} €</div>
+                        <div class="text-muted small">Chiffre d'affaires</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm text-center py-4">
+                        <div class="text-primary fw-bold" style="font-size:2rem;">{{ total_commandes }}</div>
+                        <div class="text-muted small">Commandes totales</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm text-center py-4">
+                        <div class="text-warning fw-bold" style="font-size:2rem;">{{ par_statut['en attente'] ?? 0 }}</div>
+                        <div class="text-muted small">En attente</div>
+                    </div>
+                </div>
+            </div>
+
+            {% if par_statut is not empty %}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Commandes par statut</h6>
+                    {% for statut, nb in par_statut %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge {% if statut == 'en attente' %}bg-warning text-dark{% elseif statut == 'confirmée' %}bg-info{% elseif statut == 'en préparation' %}bg-primary{% elseif statut == 'livrée' %}bg-success{% else %}bg-danger{% endif %}">{{ statut }}</span>
+                        <strong>{{ nb }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <h4 class="fw-bold mb-3">Employés</h4>
+            {% if employes is empty %}
+                <div class="card border-0 shadow-sm text-center py-4">
+                    <p class="text-muted mb-2">Aucun employé enregistré.</p>
+                    <a href="{{ path('app_admin_employe_new') }}" class="btn btn-primary btn-sm">Créer un employé</a>
+                </div>
+            {% else %}
+                <div class="card border-0 shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for employe in employes %}
+                                <tr>
+                                    <td>{{ employe.prenom }} {{ employe.nom }}</td>
+                                    <td>{{ employe.email }}</td>
+                                    <td class="text-end">
+                                        <a href="{{ path('app_admin_employe_supprimer', {id: employe.id}) }}"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('Supprimer cet employé ?')">
+                                            Supprimer
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
