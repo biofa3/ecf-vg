@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commander - {{ menu.titre }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Commander : {{ menu.titre }}</h1>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Informations de livraison</h5>
+
+                    {{ form_start(form) }}
+
+                        <div class="mb-3">
+                            {{ form_label(form.date_prestation) }}
+                            {{ form_widget(form.date_prestation, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.date_prestation) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.heure_livraison) }}
+                            {{ form_widget(form.heure_livraison, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.heure_livraison) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.ville) }}
+                            {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.ville) }}
+                            <small class="text-muted">Livraison gratuite à Bordeaux. +5€ + 0,59€/km ailleurs.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.nombre_personne) }}
+                            {{ form_widget(form.nombre_personne, {'attr': {'class': 'form-control', 'min': menu.nombrePersonneMinimum, 'id': 'nombre_personne'}}) }}
+                            {{ form_errors(form.nombre_personne) }}
+                            <small class="text-muted">Minimum {{ menu.nombrePersonneMinimum }} personnes. Réduction de 10% à partir de {{ menu.nombrePersonneMinimum + 5 }} personnes.</small>
+                        </div>
+
+                        <hr>
+
+                        <div class="alert alert-info" id="recap-prix">
+                            <strong>Récapitulatif :</strong><br>
+                            Prix par personne : {{ menu.prixParPersonne }}€<br>
+                            <span id="total-display">Total : {{ menu.prixParPersonne * menu.nombrePersonneMinimum }}€</span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Confirmer la commande
+                            </button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Récapitulatif du menu</h5>
+                    <p><strong>{{ menu.titre }}</strong></p>
+                    <p>{{ menu.description }}</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Prix par personne :</strong> {{ menu.prixParPersonne }}€</li>
+                        <li><strong>Personnes minimum :</strong> {{ menu.nombrePersonneMinimum }}</li>
+                        {% if menu.theme %}
+                        <li><strong>Thème :</strong> {{ menu.theme.libelle }}</li>
+                        {% endif %}
+                        {% if menu.regime %}
+                        <li><strong>Régime :</strong> {{ menu.regime.libelle }}</li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="alert alert-warning mt-3">
+                        <strong>Conditions :</strong> Pensez à commander suffisamment à l'avance.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('nombre_personne').addEventListener('input', function() {
+    const nbPersonnes = parseInt(this.value) || 0;
+    const prixParPersonne = {{ menu.prixParPersonne }};
+    const minimum = {{ menu.nombrePersonneMinimum }};
+    
+    let total = nbPersonnes * prixParPersonne;
+    let texteReduction = '';
+
+    if (nbPersonnes >= minimum + 5) {
+        const reduction = total * 0.10;
+        total = total - reduction;
+        texteReduction = ' <span class="text-success">(réduction 10% appliquée)</span>';
+    }
+
+    document.getElementById('total-display').innerHTML = 
+        'Total : ' + total.toFixed(2) + '€' + texteReduction;
+});
+</script>
+{% endblock %}

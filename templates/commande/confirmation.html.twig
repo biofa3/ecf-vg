@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de commande - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-success">
+                <div class="card-body text-center p-5">
+                    <h1 class="text-success mb-4">✓ Commande confirmée !</h1>
+                    <p class="lead">Merci pour votre commande. Nous avons bien reçu votre demande.</p>
+
+                    <hr>
+
+                    <div class="text-start mt-4">
+                        <h5>Récapitulatif de votre commande</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Numéro de commande :</strong> {{ commande.numeroCommande }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Menu :</strong> {{ commande.menu.titre }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Date de prestation :</strong> {{ commande.datePrestation|date('d/m/Y') }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Ville de livraison :</strong> {{ commande.ville }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Nombre de personnes :</strong> {{ commande.nombrePersonne }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Prix du menu :</strong> {{ commande.prixMenu }}€
+                            </li>
+                            {% if commande.prixLivraison > 0 %}
+                            <li class="list-group-item">
+                                <strong>Frais de livraison :</strong> {{ commande.prixLivraison }}€
+                            </li>
+                            {% endif %}
+                            <li class="list-group-item">
+                                <strong>Total :</strong> {{ commande.prixMenu + commande.prixLivraison }}€
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Statut :</strong> 
+                                <span class="badge bg-warning">{{ commande.statut }}</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{{ path('app_menus') }}" class="btn btn-primary me-2">
+                            Voir d'autres menus
+                        </a>
+                        <a href="{{ path('app_home') }}" class="btn btn-secondary">
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
