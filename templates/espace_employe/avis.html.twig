@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis clients - Espace Employé{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="briefcase"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">Espace Employé</h6>
+                    <small class="text-muted">{{ app.user.prenom }} {{ app.user.nom }}</small>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom">
+                    <a href="{{ path('app_espace_employe') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="list" class="me-2"></i> Commandes
+                    </a>
+                    <a href="{{ path('app_employe_menus') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="book-open" class="me-2"></i> Menus
+                    </a>
+                    <a href="{{ path('app_employe_avis') }}" class="list-group-item list-group-item-action active">
+                        <i data-feather="star" class="me-2"></i> Avis clients
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            <h2 class="fw-bold mb-4">Avis clients</h2>
+
+            {% if avis is empty %}
+                <div class="card border-0 shadow-sm text-center py-5">
+                    <p class="text-muted">Aucun avis pour le moment.</p>
+                </div>
+            {% else %}
+                {% for unAvis in avis %}
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="fw-bold mb-1">
+                                    {{ unAvis.commande.utilisateur.prenom }} {{ unAvis.commande.utilisateur.nom }}
+                                    <span class="text-warning ms-2">
+                                        {% for i in 1..unAvis.note %}⭐{% endfor %}
+                                    </span>
+                                </h6>
+                                <small class="text-muted">Menu : {{ unAvis.commande.menu.titre }}</small>
+                                {% if unAvis.description %}
+                                    <p class="mt-2 mb-0">{{ unAvis.description }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="text-end">
+                                <span class="badge {% if unAvis.statut == 'publié' %}bg-success{% elseif unAvis.statut == 'refusé' %}bg-danger{% else %}bg-warning text-dark{% endif %} mb-2">
+                                    {{ unAvis.statut }}
+                                </span>
+                                {% if unAvis.statut == 'en attente' %}
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <a href="{{ path('app_employe_avis_valider', {id: unAvis.id}) }}" class="btn btn-sm btn-success">Publier</a>
+                                    <a href="{{ path('app_employe_avis_refuser', {id: unAvis.id}) }}" class="btn btn-sm btn-outline-danger">Refuser</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

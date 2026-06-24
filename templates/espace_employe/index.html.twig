@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Employé - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="briefcase"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">Espace Employé</h6>
+                    <small class="text-muted">{{ app.user.prenom }} {{ app.user.nom }}</small>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom">
+                    <a href="{{ path('app_espace_employe') }}" class="list-group-item list-group-item-action active">
+                        <i data-feather="list" class="me-2"></i> Commandes
+                    </a>
+                    <a href="{{ path('app_employe_menus') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="book-open" class="me-2"></i> Menus
+                    </a>
+                    <a href="{{ path('app_employe_avis') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="star" class="me-2"></i> Avis clients
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            <h2 class="fw-bold mb-4">Gestion des commandes</h2>
+
+            {% if commandes is empty %}
+                <div class="card border-0 shadow-sm text-center py-5">
+                    <p class="text-muted">Aucune commande pour le moment.</p>
+                </div>
+            {% else %}
+                <div class="card border-0 shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>N° Commande</th>
+                                    <th>Client</th>
+                                    <th>Menu</th>
+                                    <th>Date prestation</th>
+                                    <th>Ville</th>
+                                    <th>Total</th>
+                                    <th>Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for commande in commandes %}
+                                <tr>
+                                    <td><small class="text-muted">{{ commande.numeroCommande }}</small></td>
+                                    <td>{{ commande.utilisateur.prenom }} {{ commande.utilisateur.nom }}</td>
+                                    <td>{{ commande.menu.titre }}</td>
+                                    <td>{{ commande.datePrestation|date('d/m/Y') }}</td>
+                                    <td>{{ commande.ville }}</td>
+                                    <td>{{ (commande.prixMenu + commande.prixLivraison)|number_format(2, ',', ' ') }} €</td>
+                                    <td>
+                                        <form method="post" action="{{ path('app_employe_statut', {id: commande.id}) }}" class="d-flex gap-1">
+                                            <select name="statut" class="form-select form-select-sm" style="width:auto">
+                                                {% for s in ['en attente', 'confirmée', 'en préparation', 'livrée', 'annulée'] %}
+                                                    <option value="{{ s }}" {% if commande.statut == s %}selected{% endif %}>{{ s }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-primary">OK</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
