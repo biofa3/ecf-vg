@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container mt-5">
-    <h1 class="mb-4">Nos menus</h1>
+    <h1 class="mb-5 pt-5 mt-4">Nos menus</h1>
 
     <!-- Filtres -->
     <div class="card mb-4">
@@ -50,7 +50,10 @@
              data-theme="{{ menu.theme ? menu.theme.libelle : '' }}"
              data-regime="{{ menu.regime ? menu.regime.libelle : '' }}"
              data-personnes="{{ menu.nombrePersonneMinimum }}">
-            <div class="card h-100">
+            <div class="card h-100 shadow-sm">
+                {% if menu.image %}
+                    <img src="{{ menu.image }}" class="card-img-top" alt="{{ menu.titre }}" style="height:200px;object-fit:cover;">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ menu.titre }}</h5>
                     <p class="card-text">{{ menu.description|slice(0, 150) }}...</p>

@@ -8,7 +8,10 @@
         &larr; Retour aux menus
     </a>
 
-    <div class="card">
+    <div class="card shadow-sm">
+        {% if menu.image %}
+            <img src="{{ menu.image }}" class="card-img-top" alt="{{ menu.titre }}" style="height:350px;object-fit:cover;">
+        {% endif %}
         <div class="card-body">
             <h1 class="card-title">{{ menu.titre }}</h1>
 

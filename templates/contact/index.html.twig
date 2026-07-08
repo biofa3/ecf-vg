@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 mt-5">
+            <h2 class="fw-bold mb-1">Contactez-nous</h2>
+            <p class="text-muted mb-4">Notre équipe vous répond sous 24h.</p>
+
+            {% if sent %}
+                <div class="alert alert-success">
+                    <strong>Message envoyé !</strong> Nous vous répondrons dans les meilleurs délais.
+                </div>
+            {% else %}
+                <div class="row g-4">
+                    <div class="col-md-7">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <form method="post">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nom complet</label>
+                                        <input type="text" name="nom" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Téléphone</label>
+                                        <input type="tel" name="telephone" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Sujet</label>
+                                        <select name="sujet" class="form-select">
+                                            <option>Demande de devis</option>
+                                            <option>Information sur nos menus</option>
+                                            <option>Modification de commande</option>
+                                            <option>Autre</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Message</label>
+                                        <textarea name="message" class="form-control" rows="5" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">Envoyer le message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <h6 class="fw-bold mb-3">Vite & Gourmand</h6>
+                                <p class="text-muted small mb-3">Traiteur bordelais depuis 25 ans, spécialisé dans la cuisine du terroir.</p>
+
+                                <div class="mb-3">
+                                    <i data-feather="map-pin" class="text-success me-2" style="width:16px"></i>
+                                    <span class="small">12 rue des Chartrons, 33000 Bordeaux</span>
+                                </div>
+                                <div class="mb-3">
+                                    <i data-feather="phone" class="text-success me-2" style="width:16px"></i>
+                                    <span class="small">05 56 00 00 00</span>
+                                </div>
+                                <div class="mb-4">
+                                    <i data-feather="mail" class="text-success me-2" style="width:16px"></i>
+                                    <span class="small">contact@vite-gourmand.fr</span>
+                                </div>
+
+                                <hr>
+                                <h6 class="fw-bold mb-2">Horaires</h6>
+                                <table class="table table-sm table-borderless mb-0 small">
+                                    <tr><td class="text-muted">Lundi – Vendredi</td><td>9h – 18h</td></tr>
+                                    <tr><td class="text-muted">Samedi</td><td>9h – 13h</td></tr>
+                                    <tr><td class="text-muted">Dimanche</td><td class="text-danger">Fermé</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -10,80 +10,82 @@
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-                <div class="container">
-                    <div class="carousel-caption text-start">
-                        <h1>La cuisine du terroir bordelais.</h1>
-                        <p class="opacity-75">Des plats généreux et savoureux, préparés avec des produits locaux sélectionnés avec soin.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Découvrir notre menu</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Vos événements, notre passion.</h1>
-                        <p>Mariages, repas d'entreprise, anniversaires… Nous prenons en charge tous vos événements avec sérieux et gourmandise.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Demander un devis</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <h1>25 ans de savoir-faire.</h1>
-                        <p>Depuis 1999, Vite & Gourmand met son expertise au service de votre table.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Notre histoire</a></p>
-                    </div>
-                </div>
+      <div class="carousel-inner">
+    <!-- Slide 1 : active -->
+    <div class="carousel-item active">
+        <img src="../assets/images/caroussel1.jpg" class="d-block w-100" alt="Cuisine du terroir bordelais" style="height: 100vh; object-fit: cover;">
+        <div class="container">
+            <div class="carousel-caption text-start">
+                <h1>La cuisine du terroir bordelais.</h1>
+                <p class="opacity-75">Des plats généreux et savoureux, préparés avec des produits locaux sélectionnés avec soin.</p>
+                <p><a class="btn btn-lg btn-primary" href="#">Découvrir notre menu</a></p>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Précédent</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Suivant</span>
-        </button>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item">
+        <img src="../assets/images/caroussel2.jpg" class="d-block w-100" alt="Événements traiteur" style="height: 100vh; object-fit: cover;">
+        <div class="container">
+            <div class="carousel-caption">
+                <h1>Vos événements, notre passion.</h1>
+                <p>Mariages, repas d'entreprise, anniversaires… Nous prenons en charge tous vos événements avec sérieux et gourmandise.</p>
+                <p><a class="btn btn-lg btn-primary" href="#">Découvrir notre menu</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="carousel-item">
+        <img src="../assets/images/caroussel3.jpg" class="d-block w-100" alt="25 ans de savoir-faire" style="height: 100vh; object-fit: cover;">
+        <div class="container">
+            <div class="carousel-caption text-end">
+                <h1>25 ans de savoir-faire.</h1>
+                <p>Depuis 1999, Vite & Gourmand met son expertise au service de votre table.</p>
+                <p><a class="btn btn-lg btn-primary" href="#">Découvrir notre menu</a></p>
+            </div>
+        </div>
+    </div>
+</div>
     </div>
 
     <div class="container marketing">
 
         <div class="row">
             <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-                <h2 class="fw-normal">Produits locaux</h2>
+
+
+                <img src="../assets/images/badge.png" class="rounded-circle" width="140" height="140" alt="Produits locaux">                <h2 class="fw-normal">Produits locaux</h2>
+
                 <p>Nous travaillons exclusivement avec des producteurs girondins pour vous garantir des ingrédients frais et de saison.</p>
-                <p><a class="btn btn-secondary" href="#">En savoir plus &raquo;</a></p>
+                
             </div>
             <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-                <h2 class="fw-normal">Formules sur mesure</h2>
-                <p>Cocktail dînatoire, buffet, repas assis… Chaque prestation est adaptée à vos besoins et à votre budget.</p>
-                <p><a class="btn btn-secondary" href="#">Voir nos formules &raquo;</a></p>
+                <img src="../assets/images/customer-review.png" class="rounded-circle" width="140" height="140" alt="Service client">                
+                <h2 class="fw-normal">Satisfait ou remboursé</h2>
+                <p>Votre satisfaction est notre priorité… Chaque prestation est adaptée à vos besoins et à votre budget.</p>
+               
             </div>
             <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-                <h2 class="fw-normal">Livraison à domicile</h2>
+                <img src="../assets/images/livraison-rapide.png" class="rounded-circle" width="140" height="140" alt="Livraison à domicile">                <h2 class="fw-normal">Livraison à domicile</h2>
                 <p>Profitez de notre service de livraison sur Bordeaux et sa métropole, du lundi au samedi.</p>
-                <p><a class="btn btn-secondary" href="#">Commander &raquo;</a></p>
+                
             </div>
         </div>
 
         <hr class="featurette-divider">
-
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">Une cuisine généreuse. <span class="text-body-secondary">Faite avec amour.</span></h2>
-                <p class="lead">Nos cuisiniers préparent chaque plat le jour même, avec des recettes transmises de génération en génération et revisitées avec modernité.</p>
+                <h2 class="featurette-heading fw-normal lh-1">Présentation de  <span class="text-body-secondary">l'entreprise</span></h2>
+                <p class="lead"> Nous sommes une entreprise constituée de deux personnes, Julie et José. Elle existe 
+depuis 25 ans à Bordeaux, et propose des prestations pour tout événement (simple repas 
+comme Noel ou encore Pâques) au travers d’un menu en constante évolution. Chaque plat est préparé le jour même, avec des recettes transmises de génération en génération et revisitées avec modernité.</p>
             </div>
             <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Photo plat" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Photo plat</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"/><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">Photo plat</text></svg>
+                <img src="../assets/images/jj.jpg" 
+     class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" 
+     width="500" height="500"
+     alt="Julie et José, les fondateurs de Vite et Gourmand">
             </div>
         </div>
 
@@ -95,7 +97,7 @@
                 <p class="lead">De la conception du menu à la mise en place sur place, notre équipe gère tout pour que vous puissiez profiter pleinement de vos invités.</p>
             </div>
             <div class="col-md-5 order-md-1">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Photo événement" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Photo événement</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"/><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">Photo événement</text></svg>
+                <img src="../assets/images/traiteur.jpg"  width="500" height="350" alt="Vos évènements méritent le meilleur">               
             </div>
         </div>
 
@@ -107,7 +109,7 @@
                 <p class="lead">Depuis 1999, nous avons régalé des milliers de convives. Chaque assiette est le reflet de notre passion pour la bonne cuisine bordelaise.</p>
             </div>
             <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Photo équipe" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Photo équipe</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"/><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">Photo équipe</text></svg>
+                <img src="../assets/images/traiteur4.jpg"  width="500" height="350" alt="Vos évènements méritent le meilleur">               
             </div>
         </div>
 
