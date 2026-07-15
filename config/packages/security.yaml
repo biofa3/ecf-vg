@@ -15,6 +15,7 @@ security:
             security: false
         main:
             lazy: true
+            user_checker: App\Security\UserChecker
             provider: app_user_provider
             form_login:
                 login_path: app_login
@@ -26,7 +27,12 @@ security:
                 path: app_logout
                 target: app_home
 
+    role_hierarchy:
+        ROLE_EMPLOYE: ROLE_USER
+        ROLE_ADMIN: [ROLE_EMPLOYE, ROLE_USER]
+
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/employe, roles: ROLE_EMPLOYE }
-        - { path: ^/espace-utilisateur, roles: ROLE_USER }
+        - { path: ^/utilisateur, roles: ROLE_USER }
+        - { path: ^/commande, roles: ROLE_USER }

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de commande — Vite & Gourmand</title>
+    <style>
+        body      { margin:0; padding:0; background:#f8f9fa; font-family:Arial,sans-serif; color:#212529; }
+        .wrapper  { max-width:600px; margin:32px auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+        .header   { background:#212529; padding:28px 32px; text-align:center; }
+        .header h1{ margin:0; color:#ffffff; font-size:22px; letter-spacing:1px; }
+        .header p { margin:6px 0 0; color:#adb5bd; font-size:13px; }
+        .accent   { display:block; height:4px; background:#0d6efd; }
+        .body     { padding:32px; }
+        .intro    { font-size:15px; line-height:1.6; margin-bottom:24px; }
+        .recap    { border:1px solid #dee2e6; border-radius:6px; overflow:hidden; margin-bottom:24px; }
+        .recap-header { background:#0d6efd; color:#fff; padding:10px 16px; font-weight:bold; font-size:14px; }
+        table     { width:100%; border-collapse:collapse; }
+        td        { padding:9px 16px; font-size:13px; border-bottom:1px solid #dee2e6; }
+        td:last-child { text-align:right; }
+        tr:last-child td { border-bottom:none; }
+        .label    { color:#6c757d; }
+        .total-row td { background:#f8f9fa; font-weight:bold; font-size:15px; }
+        .total-row td:last-child { color:#0d6efd; font-size:17px; }
+        .reduction-row td { color:#198754; }
+        .info-box { background:#e7f1ff; border-left:4px solid #0d6efd; border-radius:4px; padding:14px 16px; margin-bottom:24px; font-size:13px; line-height:1.6; }
+        .footer   { background:#f8f9fa; padding:20px 32px; text-align:center; font-size:12px; color:#6c757d; border-top:1px solid #dee2e6; }
+        .footer a { color:#0d6efd; text-decoration:none; }
+        .btn      { display:inline-block; background:#0d6efd; color:#ffffff !important; padding:12px 28px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:14px; margin:8px 0; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+
+    <div class="header">
+        <h1>VITE &amp; GOURMAND</h1>
+        <p>Traiteur gastronomique — Bordeaux</p>
+    </div>
+    <span class="accent"></span>
+
+    <div class="body">
+        <p class="intro">
+            Bonjour <strong>{{ commande.utilisateur.prenom }} {{ commande.utilisateur.nom }}</strong>,<br><br>
+            Nous avons bien reçu votre commande et nous vous en remercions.
+            Voici le récapitulatif complet de votre demande.
+        </p>
+
+        <div class="recap">
+            <div class="recap-header">&#128203; Récapitulatif de la commande n° {{ commande.numeroCommande }}</div>
+            <table>
+                <tr>
+                    <td class="label">Menu commandé</td>
+                    <td><strong>{{ commande.menu.titre }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="label">Date de prestation</td>
+                    <td>{{ commande.datePrestation|date('d/m/Y') }}</td>
+                </tr>
+                {% if commande.heureLivraison %}
+                <tr>
+                    <td class="label">Heure de livraison</td>
+                    <td>{{ commande.heureLivraison }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td class="label">Ville de livraison</td>
+                    <td>{{ commande.ville }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Nombre de personnes</td>
+                    <td>{{ commande.nombrePersonne }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Prix par personne</td>
+                    <td>{{ commande.menu.prixParPersonne|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                {% set prixBrut = commande.menu.prixParPersonne * commande.nombrePersonne %}
+                <tr>
+                    <td class="label">Sous-total</td>
+                    <td>{{ prixBrut|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                {% if commande.nombrePersonne >= commande.menu.nombrePersonneMinimum + 5 %}
+                <tr class="reduction-row">
+                    <td>Réduction 10 % appliquée &#10003;</td>
+                    <td>- {{ (prixBrut * 0.10)|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                {% endif %}
+                {% if commande.prixLivraison > 0 %}
+                <tr>
+                    <td class="label">Frais de livraison</td>
+                    <td>{{ commande.prixLivraison|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="label">Frais de livraison</td>
+                    <td>Gratuit</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td>TOTAL</td>
+                    <td>{{ (commande.prixMenu + commande.prixLivraison)|number_format(2, ',', ' ') }} €</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="info-box">
+            &#128336; <strong>Prochaine étape :</strong> Notre équipe va étudier votre demande et vous recontactera
+            sous 24h ouvrées pour confirmer la disponibilité et les détails logistiques.
+            Votre commande est actuellement au statut <strong>« En attente »</strong>.
+        </div>
+
+        <p style="text-align:center">
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_espace_utilisateur') }}" class="btn">
+                Suivre ma commande
+            </a>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>
+            <strong>Vite &amp; Gourmand</strong> — Traiteur gastronomique<br>
+            Bordeaux, France &bull; contact@vite-gourmand.fr
+        </p>
+        <p>
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_cgv') }}">CGV</a> &bull;
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_cgu') }}">CGU</a> &bull;
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_home') }}">Accueil</a>
+        </p>
+        <p style="color:#adb5bd">Vous recevez cet email car vous avez passé une commande sur vite-gourmand.fr</p>
+    </div>
+
+</div>
+</body>
+</html>

@@ -10,14 +10,14 @@
     <div class="card mb-4">
         <div class="card-body">
             <h5 class="card-title">Filtrer les menus</h5>
-            <div class="row g-3">
+            <div class="row g-3" role="search" aria-label="Filtres des menus">
                 <div class="col-md-3">
-                    <label class="form-label">Prix maximum</label>
-                    <input type="number" id="filtre-prix-max" class="form-control" placeholder="Ex: 50">
+                    <label for="filtre-prix-max" class="form-label">Prix maximum (€)</label>
+                    <input type="number" id="filtre-prix-max" class="form-control" placeholder="Ex: 50" aria-label="Prix maximum en euros">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Thème</label>
-                    <select id="filtre-theme" class="form-select">
+                    <label for="filtre-theme" class="form-label">Thème</label>
+                    <select id="filtre-theme" class="form-select" aria-label="Filtrer par thème">
                         <option value="">Tous les thèmes</option>
                         {% for theme in themes %}
                             <option value="{{ theme.libelle }}">{{ theme.libelle }}</option>
@@ -25,8 +25,8 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Régime</label>
-                    <select id="filtre-regime" class="form-select">
+                    <label for="filtre-regime" class="form-label">Régime</label>
+                    <select id="filtre-regime" class="form-select" aria-label="Filtrer par régime alimentaire">
                         <option value="">Tous les régimes</option>
                         {% for regime in regimes %}
                             <option value="{{ regime.libelle }}">{{ regime.libelle }}</option>
@@ -34,11 +34,11 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Nombre de personnes min.</label>
-                    <input type="number" id="filtre-personnes" class="form-control" placeholder="Ex: 10">
+                    <label for="filtre-personnes" class="form-label">Nombre de personnes min.</label>
+                    <input type="number" id="filtre-personnes" class="form-control" placeholder="Ex: 10" aria-label="Nombre de personnes minimum">
                 </div>
             </div>
-            <button class="btn btn-secondary mt-3" id="reset-filtres">Réinitialiser</button>
+            <button class="btn btn-secondary mt-3" id="reset-filtres" aria-label="Réinitialiser tous les filtres">Réinitialiser</button>
         </div>
     </div>
 
@@ -51,7 +51,9 @@
              data-regime="{{ menu.regime ? menu.regime.libelle : '' }}"
              data-personnes="{{ menu.nombrePersonneMinimum }}">
             <div class="card h-100 shadow-sm">
-                {% if menu.image %}
+                {% if menu.images|length > 0 %}
+                    <img src="{{ menu.images.first.url }}" class="card-img-top" alt="{{ menu.images.first.alt }}" style="height:200px;object-fit:cover;">
+                {% elseif menu.image %}
                     <img src="{{ menu.image }}" class="card-img-top" alt="{{ menu.titre }}" style="height:200px;object-fit:cover;">
                 {% endif %}
                 <div class="card-body">
@@ -69,7 +71,7 @@
                     </ul>
                 </div>
                 <div class="card-footer">
-                    <a href="{{ path('app_menu_detail', {id: menu.id}) }}" class="btn btn-primary w-100">
+                    <a href="{{ path('app_menu_detail', {id: menu.id}) }}" class="btn btn-primary w-100" aria-label="Voir le détail du menu {{ menu.titre }}">
                         Voir le détail
                     </a>
                 </div>

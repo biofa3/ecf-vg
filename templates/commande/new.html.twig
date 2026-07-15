@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Informations de livraison</h5>
 
-                    {{ form_start(form) }}
+                    {{ form_start(form, {'attr': {'aria-label': 'Formulaire de commande', 'novalidate': 'novalidate'}}) }}
 
                         <div class="mb-3">
                             {{ form_label(form.date_prestation) }}
@@ -42,10 +42,66 @@
 
                         <hr>
 
-                        <div class="alert alert-info" id="recap-prix">
-                            <strong>Récapitulatif :</strong><br>
-                            Prix par personne : {{ menu.prixParPersonne }}€<br>
-                            <span id="total-display">Total : {{ menu.prixParPersonne * menu.nombrePersonneMinimum }}€</span>
+                        <div class="card border-primary mb-3" id="recap-prix" role="status" aria-live="polite">
+                            <div class="card-header bg-primary text-white fw-bold">
+                                <i class="bi bi-receipt" aria-hidden="true"></i> Détail du prix
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-muted ps-3">Prix par personne</td>
+                                            <td class="text-end pe-3">{{ menu.prixParPersonne|number_format(2, ',', ' ') }} €</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-muted ps-3">Nombre de personnes</td>
+                                            <td class="text-end pe-3" id="recap-nb">{{ menu.nombrePersonneMinimum }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-muted ps-3">Sous-total</td>
+                                            <td class="text-end pe-3" id="recap-sous-total">{{ (menu.prixParPersonne * menu.nombrePersonneMinimum)|number_format(2, ',', ' ') }} €</td>
+                                        </tr>
+                                        <tr id="ligne-reduction" class="text-success d-none">
+                                            <td class="ps-3">Réduction 10%</td>
+                                            <td class="text-end pe-3" id="recap-reduction">- 0,00 €</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-muted ps-3">Frais de livraison</td>
+                                            <td class="text-end pe-3" id="recap-livraison">Gratuit</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="table-primary">
+                                        <tr>
+                                            <th class="ps-3 py-2">TOTAL</th>
+                                            <th class="text-end pe-3 py-2 fs-5" id="recap-total">{{ (menu.prixParPersonne * menu.nombrePersonneMinimum)|number_format(2, ',', ' ') }} €</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border border-danger rounded p-3 mb-4 bg-danger bg-opacity-10" role="alert">
+                            <h5 class="text-danger fw-bold mb-3">
+                                <i data-feather="alert-triangle" style="width:20px" aria-hidden="true"></i>
+                                Conditions importantes — À lire avant de commander
+                            </h5>
+                            {% if menu.conditions %}
+                            <p style="white-space: pre-line;">{{ menu.conditions }}</p>
+                            <hr class="border-danger opacity-25">
+                            {% endif %}
+                            <ul class="mb-3">
+                                <li>Le nombre minimum de personnes pour ce menu est de <strong>{{ menu.nombrePersonneMinimum }} personnes</strong>.</li>
+                                <li>Le prix par personne est de <strong>{{ menu.prixParPersonne }}€</strong>.</li>
+                                <li>Une réduction de <strong>10%</strong> est appliquée à partir de <strong>{{ menu.nombrePersonneMinimum + 5 }} personnes</strong>.</li>
+                                <li>La livraison est <strong>gratuite à Bordeaux</strong>. Un supplément de 5€ + 0,59€/km est appliqué ailleurs.</li>
+                                <li>Toute commande confirmée ne peut être annulée sans nous contacter au préalable.</li>
+                            </ul>
+                            <div class="form-check">
+                                <input type="checkbox" id="accepte-conditions" class="form-check-input" required aria-required="true">
+                                <label for="accepte-conditions" class="form-check-label fw-bold">
+                                    J'ai lu et j'accepte les conditions ci-dessus <span class="text-danger">*</span>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="d-grid">
@@ -86,22 +142,66 @@
 </div>
 
 <script>
-document.getElementById('nombre_personne').addEventListener('input', function() {
-    const nbPersonnes = parseInt(this.value) || 0;
+(function () {
     const prixParPersonne = {{ menu.prixParPersonne }};
-    const minimum = {{ menu.nombrePersonneMinimum }};
-    
-    let total = nbPersonnes * prixParPersonne;
-    let texteReduction = '';
+    const minimum        = {{ menu.nombrePersonneMinimum }};
+    const LIVRAISON_BASE = 5.00;
 
-    if (nbPersonnes >= minimum + 5) {
-        const reduction = total * 0.10;
-        total = total - reduction;
-        texteReduction = ' <span class="text-success">(réduction 10% appliquée)</span>';
+    function fmt(n) {
+        return n.toFixed(2).replace('.', ',') + ' €';
     }
 
-    document.getElementById('total-display').innerHTML = 
-        'Total : ' + total.toFixed(2) + '€' + texteReduction;
-});
+    function majRecap() {
+        const nb    = parseInt(document.getElementById('nombre_personne').value) || minimum;
+        const ville = (document.getElementById('commande_ville') || document.querySelector('[name*="ville"]') || {value:''}).value.trim().toLowerCase();
+
+        const sousTotal  = nb * prixParPersonne;
+        const aReduction = nb >= minimum + 5;
+        const reduction  = aReduction ? sousTotal * 0.10 : 0;
+        const livraison  = (ville === 'bordeaux' || ville === '') ? 0 : LIVRAISON_BASE;
+        const total      = sousTotal - reduction + livraison;
+
+        // Nombre de personnes
+        document.getElementById('recap-nb').textContent = nb;
+
+        // Sous-total
+        document.getElementById('recap-sous-total').textContent = fmt(sousTotal);
+
+        // Réduction
+        const ligneReduc = document.getElementById('ligne-reduction');
+        if (aReduction) {
+            ligneReduc.classList.remove('d-none');
+            document.getElementById('recap-reduction').textContent = '- ' + fmt(reduction);
+        } else {
+            ligneReduc.classList.add('d-none');
+        }
+
+        // Livraison
+        document.getElementById('recap-livraison').textContent =
+            livraison === 0 ? 'Gratuit' : fmt(livraison);
+
+        // Total
+        document.getElementById('recap-total').textContent = fmt(total);
+    }
+
+    // Écouter les deux champs
+    document.getElementById('nombre_personne').addEventListener('input', majRecap);
+
+    const champVille = document.getElementById('commande_ville') || document.querySelector('[name*="ville"]');
+    if (champVille) champVille.addEventListener('input', majRecap);
+
+    // Calcul initial
+    majRecap();
+
+    // Bloquer la soumission si conditions non cochées
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const cb = document.getElementById('accepte-conditions');
+        if (cb && !cb.checked) {
+            e.preventDefault();
+            cb.closest('.form-check').classList.add('border', 'border-danger', 'rounded', 'p-1');
+            cb.focus();
+        }
+    });
+})();
 </script>
 {% endblock %}

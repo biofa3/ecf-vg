@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menus - Administration{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="shield"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">Administration</h6>
+                    <small class="text-muted">{{ app.user.prenom }} {{ app.user.nom }}</small>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom">
+                    <a href="{{ path('app_espace_admin') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="bar-chart-2" class="me-2"></i> Tableau de bord
+                    </a>
+                    <a href="{{ path('app_admin_commandes') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="shopping-bag" class="me-2"></i> Commandes
+                    </a>
+                    <a href="{{ path('app_admin_menus') }}" class="list-group-item list-group-item-action active">
+                        <i data-feather="book-open" class="me-2"></i> Menus
+                    </a>
+                    <a href="{{ path('app_admin_employe_new') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="user-plus" class="me-2"></i> Créer un employé
+                    </a>
+                    <a href="{{ path('app_admin_avis') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="star" class="me-2"></i> Avis clients
+                    </a>
+                    <a href="{{ path('app_admin_stats') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="pie-chart" class="me-2"></i> Statistiques
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            <h2 class="fw-bold mb-4 mt-3">Gestion des menus</h2>
+
+            <div class="card border-0 shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" aria-label="Liste des menus">
+                        <caption class="visually-hidden">Liste des menus avec actions d'édition</caption>
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Thème</th>
+                                <th scope="col">Prix/pers.</th>
+                                <th scope="col">Min pers.</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Conditions</th>
+                                <th scope="col"><span class="visually-hidden">Actions</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for menu in menus %}
+                            <tr>
+                                <td class="fw-bold">{{ menu.titre }}</td>
+                                <td>{{ menu.theme ? menu.theme.libelle : '-' }}</td>
+                                <td>{{ menu.prixParPersonne }} €</td>
+                                <td>{{ menu.nombrePersonneMinimum }}</td>
+                                <td>
+                                    <span class="badge {{ menu.quantiteRestante > 5 ? 'bg-success' : (menu.quantiteRestante > 0 ? 'bg-warning text-dark' : 'bg-danger') }}">
+                                        {{ menu.quantiteRestante }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if menu.conditions %}
+                                        <span class="badge bg-success">
+                                            <i data-feather="check" style="width:12px" aria-hidden="true"></i> Renseignées
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">
+                                            <i data-feather="alert-circle" style="width:12px" aria-hidden="true"></i> Manquantes
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ path('app_admin_menu_edit', {id: menu.id}) }}"
+                                       class="btn btn-sm btn-outline-primary"
+                                       aria-label="Modifier le menu {{ menu.titre }}">
+                                        <i data-feather="edit-2" style="width:14px" aria-hidden="true"></i> Modifier
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

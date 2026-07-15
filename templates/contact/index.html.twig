@@ -18,22 +18,22 @@
                     <div class="col-md-7">
                         <div class="card border-0 shadow-sm">
                             <div class="card-body p-4">
-                                <form method="post">
+                                <form method="post" aria-label="Formulaire de contact">
                                     <div class="mb-3">
-                                        <label class="form-label">Nom complet</label>
-                                        <input type="text" name="nom" class="form-control" required>
+                                        <label for="nom" class="form-label">Nom complet <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <input type="text" id="nom" name="nom" class="form-control" required aria-required="true">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control" required>
+                                        <label for="email" class="form-label">Email <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <input type="email" id="email" name="email" class="form-control" required aria-required="true">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Téléphone</label>
-                                        <input type="tel" name="telephone" class="form-control">
+                                        <label for="telephone" class="form-label">Téléphone</label>
+                                        <input type="tel" id="telephone" name="telephone" class="form-control">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Sujet</label>
-                                        <select name="sujet" class="form-select">
+                                        <label for="sujet" class="form-label">Sujet <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <select id="sujet" name="sujet" class="form-select" required aria-required="true">
                                             <option>Demande de devis</option>
                                             <option>Information sur nos menus</option>
                                             <option>Modification de commande</option>
@@ -41,9 +41,11 @@
                                         </select>
                                     </div>
                                     <div class="mb-4">
-                                        <label class="form-label">Message</label>
-                                        <textarea name="message" class="form-control" rows="5" required></textarea>
+                                        <label for="message" class="form-label">Message <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <textarea id="message" name="message" class="form-control" rows="5" required aria-required="true"></textarea>
                                     </div>
+                                    <p class="small text-muted"><span class="text-danger">*</span> Champs obligatoires</p>
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('contact') }}">
                                     <button type="submit" class="btn btn-success w-100">Envoyer le message</button>
                                 </form>
                             </div>
@@ -57,16 +59,16 @@
                                 <p class="text-muted small mb-3">Traiteur bordelais depuis 25 ans, spécialisé dans la cuisine du terroir.</p>
 
                                 <div class="mb-3">
-                                    <i data-feather="map-pin" class="text-success me-2" style="width:16px"></i>
+                                    <i data-feather="map-pin" class="text-success me-2" style="width:16px" aria-hidden="true"></i>
                                     <span class="small">12 rue des Chartrons, 33000 Bordeaux</span>
                                 </div>
                                 <div class="mb-3">
-                                    <i data-feather="phone" class="text-success me-2" style="width:16px"></i>
-                                    <span class="small">05 56 00 00 00</span>
+                                    <i data-feather="phone" class="text-success me-2" style="width:16px" aria-hidden="true"></i>
+                                    <a href="tel:+33556000000" class="small text-decoration-none text-dark">05 56 00 00 00</a>
                                 </div>
                                 <div class="mb-4">
-                                    <i data-feather="mail" class="text-success me-2" style="width:16px"></i>
-                                    <span class="small">contact@vite-gourmand.fr</span>
+                                    <i data-feather="mail" class="text-success me-2" style="width:16px" aria-hidden="true"></i>
+                                    <a href="mailto:contact@vite-gourmand.fr" class="small text-decoration-none text-dark">contact@vite-gourmand.fr</a>
                                 </div>
 
                                 <hr>

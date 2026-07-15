@@ -32,31 +32,42 @@
         </div>
 
         <div class="col-md-9">
-            <h2 class="fw-bold mb-4">Menus</h2>
+            <h2 class="fw-bold mb-4 mt-4">Menus</h2>
             <div class="card border-0 shadow-sm">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table table-hover mb-0" aria-label="Liste des menus">
+                        <caption class="visually-hidden">Liste des menus disponibles</caption>
                         <thead class="table-light">
                             <tr>
-                                <th>Titre</th>
-                                <th>Thème</th>
-                                <th>Prix/pers.</th>
-                                <th>Min personnes</th>
-                                <th>Régime</th>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Thème</th>
+                                <th scope="col">Prix/pers.</th>
+                                <th scope="col">Min pers.</th>
+                                <th scope="col">Conditions</th>
+                                <th scope="col"><span class="visually-hidden">Actions</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for menu in menus %}
                             <tr>
-                                <td>
-                                    <a href="{{ path('app_menu_detail', {id: menu.id}) }}" class="text-decoration-none fw-bold">
-                                        {{ menu.titre }}
-                                    </a>
-                                </td>
+                                <td class="fw-bold">{{ menu.titre }}</td>
                                 <td>{{ menu.theme ? menu.theme.libelle : '-' }}</td>
                                 <td>{{ menu.prixParPersonne }} €</td>
                                 <td>{{ menu.nombrePersonneMinimum }}</td>
-                                <td>{{ menu.regime ? menu.regime.libelle : '-' }}</td>
+                                <td>
+                                    {% if menu.conditions %}
+                                        <span class="badge bg-success">Renseignées</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Manquantes</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ path('app_employe_menu_edit', {id: menu.id}) }}"
+                                       class="btn btn-sm btn-outline-primary"
+                                       aria-label="Modifier le menu {{ menu.titre }}">
+                                        <i data-feather="edit-2" style="width:14px" aria-hidden="true"></i> Modifier
+                                    </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

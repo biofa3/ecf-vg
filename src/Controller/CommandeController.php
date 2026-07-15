@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 class CommandeController extends AbstractController
@@ -18,7 +20,8 @@ class CommandeController extends AbstractController
         int $menuId,
         Request $request,
         MenuRepository $menuRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
     ): Response {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -65,6 +68,18 @@ class CommandeController extends AbstractController
 
             $entityManager->persist($commande);
             $entityManager->flush();
+
+            $emailBody = $this->renderView('emails/confirmation_commande.html.twig', [
+                'commande' => $commande,
+            ]);
+
+            $email = (new Email())
+                ->from('noreply@vite-gourmand.fr')
+                ->to($commande->getUtilisateur()->getEmail())
+                ->subject('Confirmation de votre commande n° ' . $commande->getNumeroCommande())
+                ->html($emailBody);
+
+            $mailer->send($email);
 
             return $this->redirectToRoute('app_commande_confirmation', [
                 'id' => $commande->getId()

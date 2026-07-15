@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon profil — Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="user" aria-hidden="true"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">{{ app.user.prenom }} {{ app.user.nom }}</h6>
+                    <small class="text-muted">{{ app.user.email }}</small>
+                </div>
+                <nav class="list-group list-group-flush rounded-bottom" aria-label="Navigation espace utilisateur">
+                    <a href="{{ path('app_espace_utilisateur') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="shopping-bag" class="me-2" aria-hidden="true"></i> Mes commandes
+                    </a>
+                    <a href="{{ path('app_utilisateur_profil') }}" class="list-group-item list-group-item-action active" aria-current="page">
+                        <i data-feather="settings" class="me-2" aria-hidden="true"></i> Mon profil
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2" aria-hidden="true"></i> Déconnexion
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% for msg in app.flashes('success') %}<div class="alert alert-success">{{ msg }}</div>{% endfor %}
+
+            <h2 class="fw-bold mb-4 mt-3">Mes informations personnelles</h2>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_label(form.prenom) }}
+                            {{ form_widget(form.prenom) }}
+                            {{ form_errors(form.prenom) }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_label(form.nom) }}
+                            {{ form_widget(form.nom) }}
+                            {{ form_errors(form.nom) }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.telephone) }}
+                        {{ form_widget(form.telephone) }}
+                        {{ form_errors(form.telephone) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.adresse_postale) }}
+                        {{ form_widget(form.adresse_postale) }}
+                        {{ form_errors(form.adresse_postale) }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_label(form.ville) }}
+                            {{ form_widget(form.ville) }}
+                            {{ form_errors(form.ville) }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_label(form.pays) }}
+                            {{ form_widget(form.pays) }}
+                            {{ form_errors(form.pays) }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modifier la commande {{ commande.numeroCommande }}{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-warning text-dark fw-bold">
+                    <i data-feather="edit-2" style="width:16px" aria-hidden="true"></i>
+                    Modifier la commande {{ commande.numeroCommande }}
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-4">
+                        <strong>Menu :</strong> {{ commande.menu.titre }}
+                        <span class="text-muted ms-2">(le menu ne peut pas être modifié)</span>
+                    </div>
+
+                    {{ form_start(form) }}
+
+                    <div class="mb-3">
+                        {{ form_label(form.date_prestation) }}
+                        {{ form_widget(form.date_prestation) }}
+                        {{ form_errors(form.date_prestation) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.heure_livraison) }}
+                        {{ form_widget(form.heure_livraison) }}
+                        {{ form_errors(form.heure_livraison) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.ville) }}
+                        {{ form_widget(form.ville) }}
+                        {{ form_errors(form.ville) }}
+                        <small class="text-muted">Livraison gratuite à Bordeaux, +5 € ailleurs.</small>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.nombre_personne) }}
+                        {{ form_widget(form.nombre_personne) }}
+                        {{ form_errors(form.nombre_personne) }}
+                        <small class="text-muted">
+                            Minimum {{ commande.menu.nombrePersonneMinimum }} personnes.
+                            Réduction 10 % à partir de {{ commande.menu.nombrePersonneMinimum + 5 }} personnes.
+                        </small>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-warning">Enregistrer les modifications</button>
+                        <a href="{{ path('app_utilisateur_commande_detail', {id: commande.id}) }}" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

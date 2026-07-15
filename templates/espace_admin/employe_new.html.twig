@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+﻿{% extends 'base.html.twig' %}
 
-{% block title %}Créer un employé - Administration{% endblock %}
+{% block title %}CrÃ©er un employÃ© - Administration{% endblock %}
 
 {% block body %}
 <div class="container py-5">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary">Créer le compte</button>
-                        <a href="{{ path('app_espace_admin') }}" class="btn btn-outline-secondary ms-2">Annuler</a>
+                        <a href="{{ path('app_espace_admin') }}" class="btn btn-outline-secondary ms-2">Retour au dashboard</a>
                     </div>
                     {{ form_end(form) }}
                 </div>
@@ -29,3 +29,4 @@
     </div>
 </div>
 {% endblock %}
+

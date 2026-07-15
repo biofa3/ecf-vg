@@ -45,6 +45,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
 
+    #[ORM\Column]
+    private bool $actif = true;
+
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'utilisateur')]
     private Collection $commandes;
 
@@ -169,6 +172,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdressePostale(?string $adresse_postale): static
     {
         $this->adresse_postale = $adresse_postale;
+        return $this;
+    }
+
+    public function isActif(): bool
+    {
+        return $this->actif;
+    }
+
+    public function setActif(bool $actif): static
+    {
+        $this->actif = $actif;
         return $this;
     }
 

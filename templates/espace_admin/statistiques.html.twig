@@ -1,0 +1,177 @@
+﻿{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques - Administration{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="shield"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">Administration</h6>
+                    <small class="text-muted">{{ app.user.prenom }} {{ app.user.nom }}</small>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom">
+                    <a href="{{ path('app_espace_admin') }}" class="list-group-item list-group-item-action mt-2">
+                        <i data-feather="bar-chart-2" class="me-2"></i> Tableau de bord
+                    </a>
+                    <a href="{{ path('app_admin_commandes') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="shopping-bag" class="me-2"></i> Commandes
+                    </a>
+                    <a href="{{ path('app_admin_menus') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="book-open" class="me-2"></i> Menus
+                    </a>
+                    <a href="{{ path('app_admin_employe_new') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="user-plus" class="me-2"></i> CrÃ©er un employÃ©
+                    </a>
+                    <a href="{{ path('app_admin_avis') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="star" class="me-2"></i> Avis clients
+                    </a>
+                    <a href="{{ path('app_admin_stats') }}" class="list-group-item list-group-item-action active">
+                        <i data-feather="pie-chart" class="me-2"></i> Statistiques
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2"></i> DÃ©connexion
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <h2 class="fw-bold mb-4 mt-3">Statistiques des commandes</h2>
+
+            {# Graphique Chart.js - donnÃ©es MongoDB #}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    Nombre de commandes par menu <small class="text-muted">(base MongoDB)</small>
+                </div>
+                <div class="card-body">
+                    {% if stats_mongo is empty %}
+                        <p class="text-muted">Aucune donnÃ©e disponible.</p>
+                    {% else %}
+                        <canvas id="graphCommandes" height="100"></canvas>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Filtres CA #}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    Chiffre d'affaires par menu
+                </div>
+                <div class="card-body">
+                    <form method="get" action="{{ path('app_admin_stats') }}" class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Menu</label>
+                            <select name="menu" class="form-select">
+                                <option value="">-- Tous les menus --</option>
+                                {% for menu in menus %}
+                                    <option value="{{ menu.id }}" {% if menu_filtre == menu.id ~ '' %}selected{% endif %}>
+                                        {{ menu.titre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Du</label>
+                            <input type="date" name="date_debut" class="form-control" value="{{ date_debut ?? '' }}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Au</label>
+                            <input type="date" name="date_fin" class="form-control" value="{{ date_fin ?? '' }}">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-danger w-100">Filtrer</button>
+                        </div>
+                    </form>
+
+                    {% if ca_par_menu is empty %}
+                        <p class="text-muted">Aucune commande pour cette sÃ©lection.</p>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Menu</th>
+                                        <th class="text-center">Nb commandes</th>
+                                        <th class="text-end">CA (â‚¬)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set total_ca = 0 %}
+                                    {% for ligne in ca_par_menu %}
+                                        {% set total_ca = total_ca + ligne.ca %}
+                                        <tr>
+                                            <td>{{ ligne.titre }}</td>
+                                            <td class="text-center">{{ ligne.nb_commandes }}</td>
+                                            <td class="text-end">{{ ligne.ca|number_format(2, ',', ' ') }} â‚¬</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot class="fw-bold">
+                                    <tr class="table-danger">
+                                        <td>Total</td>
+                                        <td></td>
+                                        <td class="text-end">{{ total_ca|number_format(2, ',', ' ') }} â‚¬</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% if stats_mongo is not empty %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = {{ stats_mongo|map(s => s.titre)|json_encode|raw }};
+    const data   = {{ stats_mongo|map(s => s.nb)|json_encode|raw }};
+
+    new Chart(document.getElementById('graphCommandes'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Nombre de commandes',
+                data: data,
+                backgroundColor: [
+                    'rgba(220, 53, 69, 0.7)',
+                    'rgba(255, 193, 7, 0.7)',
+                    'rgba(13, 110, 253, 0.7)',
+                    'rgba(25, 135, 84, 0.7)',
+                    'rgba(102, 16, 242, 0.7)',
+                    'rgba(253, 126, 20, 0.7)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: 'Commandes par menu (source : MongoDB)'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}
+

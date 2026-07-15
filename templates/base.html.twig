@@ -10,24 +10,28 @@
     <link href="{{ asset('/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/carousel.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons" defer></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
 
-<header data-bs-theme="dark">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<a href="#contenu-principal" class="visually-hidden-focusable position-absolute top-0 start-0 p-2 bg-white text-dark">Aller au contenu principal</a>
+
+<header role="banner" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" role="navigation" aria-label="Navigation principale">
         <div class="container-fluid">
-            <img src="../assets/images/logo.png" alt="Logo Vite & Gourmand" width="150" height="150" class="d-inline-block align-text-top me-2">
+            <a href="{{ path('app_home') }}" aria-label="Accueil - Vite &amp; Gourmand">
+                <img src="../assets/images/logo.png" alt="Vite &amp; Gourmand - Traiteur Bordelais" width="150" height="150" class="d-inline-block align-text-top me-2">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mx-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/">Accueil</a>
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://127.0.0.1:8000/menus">Nos formules</a>
+                        <a class="nav-link" href="{{ path('app_menus') }}">Nos menus</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
@@ -36,16 +40,16 @@
                 <div class="d-flex align-items-center gap-3">
                     {% if app.user %}
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('app_espace_admin') }}" class="text-white text-decoration-none small">
-                                <i data-feather="user" style="width:18px"></i> {{ app.user.prenom }}
+                            <a href="{{ path('app_espace_admin') }}" class="text-white text-decoration-none small" aria-label="Espace administrateur de {{ app.user.prenom }}">
+                                <i data-feather="user" style="width:18px" aria-hidden="true"></i> {{ app.user.prenom }}
                             </a>
                         {% elseif is_granted('ROLE_EMPLOYE') %}
-                            <a href="{{ path('app_espace_employe') }}" class="text-white text-decoration-none small">
-                                <i data-feather="user" style="width:18px"></i> {{ app.user.prenom }}
+                            <a href="{{ path('app_espace_employe') }}" class="text-white text-decoration-none small" aria-label="Espace employé de {{ app.user.prenom }}">
+                                <i data-feather="user" style="width:18px" aria-hidden="true"></i> {{ app.user.prenom }}
                             </a>
                         {% else %}
-                            <a href="{{ path('app_espace_utilisateur') }}" class="text-white text-decoration-none small">
-                                <i data-feather="user" style="width:18px"></i> {{ app.user.prenom }}
+                            <a href="{{ path('app_espace_utilisateur') }}" class="text-white text-decoration-none small" aria-label="Mon espace - {{ app.user.prenom }}">
+                                <i data-feather="user" style="width:18px" aria-hidden="true"></i> {{ app.user.prenom }}
                             </a>
                         {% endif %}
                         <a href="{{ path('app_logout') }}" class="text-white-50 text-decoration-none small">Déconnexion</a>
@@ -59,16 +63,44 @@
     </nav>
 </header>
 
-<main style="padding-top: 56px;">
+<main id="contenu-principal" style="padding-top: 56px;">
 
     {% block body %}{% endblock %}
 
-    <footer class="container">
-        <p>&copy; 2017–2024 Vite &amp; Gourmand <a href="#">CGV</a> &middot; <a href="#">CGU</a></p>
+    <footer class="bg-dark text-white mt-5 py-4" role="contentinfo">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h6 class="fw-bold mb-3">Vite &amp; Gourmand</h6>
+                    <p class="text-white-50 small mb-1">12 rue des Chartrons, 33000 Bordeaux</p>
+                    <p class="text-white-50 small mb-1">05 56 00 00 00</p>
+                    <p class="text-white-50 small">contact@vite-gourmand.fr</p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="fw-bold mb-3">Horaires</h6>
+                    <table class="table table-sm table-borderless mb-0 text-white-50 small" aria-label="Horaires d'ouverture">
+                        <tr><td>Lundi – Vendredi</td><td>9h – 18h</td></tr>
+                        <tr><td>Samedi</td><td>9h – 13h</td></tr>
+                        <tr><td>Dimanche</td><td class="text-danger">Fermé</td></tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="fw-bold mb-3">Navigation</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="{{ path('app_menus') }}" class="text-white-50 text-decoration-none">Nos menus</a></li>
+                        <li><a href="{{ path('app_contact') }}" class="text-white-50 text-decoration-none">Contact</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary mt-3">
+            <p class="text-white-50 small mb-0 text-center">&copy; 2026 Vite &amp; Gourmand &middot; <a href="{{ path('app_cgv') }}" class="text-white-50">CGV</a> &middot; <a href="{{ path('app_cgu') }}" class="text-white-50">CGU</a></p>
+        </div>
     </footer>
 </main>
 
 <script src="{{ asset('/assets/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('/assets/js/global.js') }}"></script>
+{% block javascripts %}{% endblock %}
 </body>
 </html>

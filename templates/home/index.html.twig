@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" aria-label="Diaporama Vite &amp; Gourmand" role="region">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -17,8 +17,9 @@
         <div class="container">
             <div class="carousel-caption text-start">
                 <h1>La cuisine du terroir bordelais.</h1>
+
                 <p class="opacity-75">Des plats généreux et savoureux, préparés avec des produits locaux sélectionnés avec soin.</p>
-                <p><a class="btn btn-lg btn-primary" href="#">Découvrir notre menu</a></p>
+                <p><a class="btn btn-lg btn-primary" href="{{ path('app_menus') }}">Découvrir notre menu</a></p>
             </div>
         </div>
     </div>
@@ -28,9 +29,9 @@
         <img src="../assets/images/caroussel2.jpg" class="d-block w-100" alt="Événements traiteur" style="height: 100vh; object-fit: cover;">
         <div class="container">
             <div class="carousel-caption">
-                <h1>Vos événements, notre passion.</h1>
+                <h2>Vos événements, notre passion.</h2>
                 <p>Mariages, repas d'entreprise, anniversaires… Nous prenons en charge tous vos événements avec sérieux et gourmandise.</p>
-                <p><a class="btn btn-lg btn-primary" href="#">Découvrir notre menu</a></p>
+                <p><a class="btn btn-lg btn-primary" href="{{ path('app_menus') }}">Découvrir notre menu</a></p>
             </div>
         </div>
     </div>
@@ -40,9 +41,9 @@
         <img src="../assets/images/caroussel3.jpg" class="d-block w-100" alt="25 ans de savoir-faire" style="height: 100vh; object-fit: cover;">
         <div class="container">
             <div class="carousel-caption text-end">
-                <h1>25 ans de savoir-faire.</h1>
+                <h2>25 ans de savoir-faire.</h2>
                 <p>Depuis 1999, Vite & Gourmand met son expertise au service de votre table.</p>
-                <p><a class="btn btn-lg btn-primary" href="#">Découvrir notre menu</a></p>
+                <p><a class="btn btn-lg btn-primary" href="{{ path('app_menus') }}">Découvrir notre menu</a></p>
             </div>
         </div>
     </div>
@@ -113,7 +114,32 @@ comme Noel ou encore Pâques) au travers d’un menu en constante évolution. Ch
             </div>
         </div>
 
+        {% if avis is not empty %}
         <hr class="featurette-divider">
+        <div class="py-4">
+            <h2 class="fw-normal text-center mb-4">Ce que disent nos clients</h2>
+            <div class="row g-4">
+                {% for unAvis in avis %}
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="text-warning mb-2" aria-label="Note : {{ unAvis.note }} sur 5">
+                                {% for i in 1..unAvis.note %}⭐{% endfor %}
+                            </div>
+                            {% if unAvis.description %}
+                                <p class="mb-3">"{{ unAvis.description }}"</p>
+                            {% endif %}
+                            <small class="fw-bold text-muted">
+                                {{ unAvis.commande.utilisateur.prenom }} {{ unAvis.commande.utilisateur.nom|first|upper }}.
+                            </small><br>
+                            <small class="text-muted">{{ unAvis.commande.menu.titre }}</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
 
     </div>
 

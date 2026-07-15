@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -57,6 +59,25 @@ class Commande
 
     #[ORM\OneToOne(mappedBy: 'commande', cascade: ['persist', 'remove'])]
     private ?Avis $avis = null;
+
+    #[ORM\OneToMany(targetEntity: CommandeHistorique::class, mappedBy: 'commande', cascade: ['persist', 'remove'])]
+    private Collection $historiques;
+
+    public function __construct()
+    {
+        $this->historiques = new ArrayCollection();
+    }
+
+    public function getHistoriques(): Collection { return $this->historiques; }
+
+    public function addHistorique(CommandeHistorique $h): static
+    {
+        if (!$this->historiques->contains($h)) {
+            $this->historiques->add($h);
+            $h->setCommande($this);
+        }
+        return $this;
+    }
 
     public function getId(): ?int
     {

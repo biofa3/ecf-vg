@@ -33,6 +33,9 @@ class Menu
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $conditions = null;
+
     #[ORM\Column]
     private ?int $quantite_restante = null;
 
@@ -54,10 +57,17 @@ class Menu
     #[ORM\ManyToMany(targetEntity: Plat::class, inversedBy: 'menus')]
     private Collection $plats;
 
+    /**
+     * @var Collection<int, MenuImage>
+     */
+    #[ORM\OneToMany(targetEntity: MenuImage::class, mappedBy: 'menu', cascade: ['persist', 'remove'])]
+    private Collection $images;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
         $this->plats = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,6 +131,17 @@ class Menu
     {
         $this->description = $description;
 
+        return $this;
+    }
+
+    public function getConditions(): ?string
+    {
+        return $this->conditions;
+    }
+
+    public function setConditions(?string $conditions): static
+    {
+        $this->conditions = $conditions;
         return $this;
     }
 
@@ -210,6 +231,35 @@ class Menu
     public function removePlat(Plat $plat): static
     {
         $this->plats->removeElement($plat);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MenuImage>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(MenuImage $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(MenuImage $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            if ($image->getMenu() === $this) {
+                $image->setMenu(null);
+            }
+        }
 
         return $this;
     }

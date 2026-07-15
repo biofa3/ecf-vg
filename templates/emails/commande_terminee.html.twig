@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Votre commande est terminée — Vite & Gourmand</title>
+    <style>
+        body { margin:0; padding:0; background:#f8f9fa; font-family:Arial,sans-serif; color:#212529; }
+        .wrapper { max-width:600px; margin:32px auto; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+        .header { background:#212529; padding:28px 32px; text-align:center; }
+        .header h1 { margin:0; color:#fff; font-size:20px; }
+        .header p { margin:6px 0 0; color:#adb5bd; font-size:13px; }
+        .accent { display:block; height:4px; background:#198754; }
+        .body { padding:32px; }
+        .stars { text-align:center; font-size:32px; margin:16px 0; letter-spacing:4px; }
+        .info-box { background:#e9f5ee; border-left:4px solid #198754; border-radius:4px; padding:14px 16px; margin:20px 0; font-size:13px; line-height:1.6; }
+        .footer { background:#f8f9fa; padding:20px 32px; text-align:center; font-size:12px; color:#6c757d; border-top:1px solid #dee2e6; }
+        .footer a { color:#0d6efd; text-decoration:none; }
+        .btn { display:inline-block; background:#198754; color:#fff !important; padding:12px 28px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:14px; margin:8px 0; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <h1>VITE &amp; GOURMAND</h1>
+        <p>Traiteur gastronomique — Bordeaux</p>
+    </div>
+    <span class="accent"></span>
+    <div class="body">
+        <p>Bonjour <strong>{{ commande.utilisateur.prenom }} {{ commande.utilisateur.nom }}</strong>,</p>
+        <p>
+            Votre commande <strong>{{ commande.numeroCommande }}</strong> ({{ commande.menu.titre }})
+            est désormais <strong>terminée</strong>. Nous espérons que cette prestation a été à la hauteur
+            de vos attentes !
+        </p>
+
+        <div class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+
+        <div class="info-box">
+            <strong>Votre avis compte !</strong><br>
+            Connectez-vous à votre espace client pour noter votre expérience (de 1 à 5 étoiles)
+            et laisser un commentaire. Vos retours nous aident à nous améliorer.
+        </div>
+
+        <p style="text-align:center">
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_utilisateur_avis', {id: commande.id}) }}" class="btn">
+                &#9733; Donner mon avis
+            </a>
+        </p>
+
+        <p style="color:#6c757d; font-size:13px; text-align:center">
+            Commande {{ commande.numeroCommande }} — {{ commande.menu.titre }}<br>
+            Prestation du {{ commande.datePrestation|date('d/m/Y') }}
+        </p>
+    </div>
+    <div class="footer">
+        <p><strong>Vite &amp; Gourmand</strong> — Bordeaux — contact@vite-gourmand.fr</p>
+        <p>
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_cgv') }}">CGV</a> &bull;
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_cgu') }}">CGU</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

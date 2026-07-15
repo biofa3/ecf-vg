@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Retour de matériel requis — Vite & Gourmand</title>
+    <style>
+        body { margin:0; padding:0; background:#f8f9fa; font-family:Arial,sans-serif; color:#212529; }
+        .wrapper { max-width:600px; margin:32px auto; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+        .header { background:#212529; padding:28px 32px; text-align:center; }
+        .header h1 { margin:0; color:#fff; font-size:20px; }
+        .header p { margin:6px 0 0; color:#adb5bd; font-size:13px; }
+        .accent { display:block; height:4px; background:#ffc107; }
+        .body { padding:32px; }
+        .warn-box { background:#fff9e6; border-left:4px solid #ffc107; border-radius:4px; padding:16px; margin:20px 0; font-size:14px; line-height:1.6; }
+        .warn-box strong { color:#856404; }
+        .amount { font-size:24px; font-weight:bold; color:#dc3545; text-align:center; margin:16px 0; }
+        .footer { background:#f8f9fa; padding:20px 32px; text-align:center; font-size:12px; color:#6c757d; border-top:1px solid #dee2e6; }
+        .btn { display:inline-block; background:#212529; color:#fff !important; padding:12px 28px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:14px; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <h1>VITE &amp; GOURMAND</h1>
+        <p>Traiteur gastronomique — Bordeaux</p>
+    </div>
+    <span class="accent"></span>
+    <div class="body">
+        <p>Bonjour <strong>{{ commande.utilisateur.prenom }} {{ commande.utilisateur.nom }}</strong>,</p>
+        <p>
+            Votre commande <strong>{{ commande.numeroCommande }}</strong> a bien été livrée.
+            Du matériel vous a été prêté lors de cette prestation et doit nous être restitué.
+        </p>
+
+        <div class="warn-box">
+            <strong>&#9888; Important :</strong> Vous disposez de <strong>10 jours ouvrés</strong>
+            à compter de la réception de cet email pour restituer le matériel emprunté.<br><br>
+            Passé ce délai, conformément à nos
+            <a href="{{ app.request.schemeAndHttpHost ~ path('app_cgv') }}">Conditions Générales de Vente</a>,
+            des frais de remplacement de <strong>600 €</strong> seront appliqués.
+        </div>
+
+        <div class="amount">600 € de frais si non restitution sous 10 jours ouvrés</div>
+
+        <p>
+            <strong>Pour restituer le matériel</strong>, veuillez nous contacter directement par téléphone
+            ou par email afin de convenir des modalités de retour :
+        </p>
+        <p style="text-align:center">
+            <a href="mailto:contact@vite-gourmand.fr" class="btn">Contacter Vite &amp; Gourmand</a>
+        </p>
+        <p style="color:#6c757d; font-size:13px;">
+            Référence commande : <strong>{{ commande.numeroCommande }}</strong><br>
+            Date de prestation : <strong>{{ commande.datePrestation|date('d/m/Y') }}</strong>
+        </p>
+    </div>
+    <div class="footer">
+        <p><strong>Vite &amp; Gourmand</strong> — Bordeaux — contact@vite-gourmand.fr</p>
+        <p><a href="{{ app.request.schemeAndHttpHost ~ path('app_cgv') }}">CGV</a></p>
+    </div>
+</div>
+</body>
+</html>

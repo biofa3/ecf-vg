@@ -16,10 +16,19 @@
                 </div>
                 <div class="list-group list-group-flush rounded-bottom">
                     <a href="{{ path('app_espace_admin') }}" class="list-group-item list-group-item-action active">
-                        <i data-feather="bar-chart-2" class="me-2"></i> Tableau de bord
+                        <i data-feather="bar-chart-2" class="me-4"></i> Tableau de bord
+                    </a>
+                    <a href="{{ path('app_admin_commandes') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="shopping-bag" class="me-2"></i> Commandes
                     </a>
                     <a href="{{ path('app_admin_employe_new') }}" class="list-group-item list-group-item-action">
                         <i data-feather="user-plus" class="me-2"></i> Créer un employé
+                    </a>
+                    <a href="{{ path('app_admin_avis') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="star" class="me-2"></i> Avis clients
+                    </a>
+                    <a href="{{ path('app_admin_stats') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="pie-chart" class="me-2"></i> Statistiques
                     </a>
                     <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
                         <i data-feather="log-out" class="me-2"></i> Déconnexion
@@ -33,7 +42,7 @@
                 <div class="alert alert-success">{{ message }}</div>
             {% endfor %}
 
-            <h2 class="fw-bold mb-4">Tableau de bord</h2>
+            <h2 class="fw-bold mb-4 mt-3">Tableau de bord</h2>
 
             <div class="row g-3 mb-4">
                 <div class="col-md-4">
@@ -79,24 +88,30 @@
             {% else %}
                 <div class="card border-0 shadow-sm">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+                        <table class="table table-hover mb-0" aria-label="Liste des employés">
+                            <caption class="visually-hidden">Liste des comptes employés</caption>
                             <thead class="table-light">
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Email</th>
-                                    <th></th>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col"><span class="visually-hidden">Actions</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for employe in employes %}
                                 <tr>
-                                    <td>{{ employe.prenom }} {{ employe.nom }}</td>
+                                    <td>
+                                        {{ employe.prenom }} {{ employe.nom }}
+                                        {% if not employe.actif %}
+                                            <span class="badge bg-danger ms-1">Désactivé</span>
+                                        {% endif %}
+                                    </td>
                                     <td>{{ employe.email }}</td>
-                                    <td class="text-end">
-                                        <a href="{{ path('app_admin_employe_supprimer', {id: employe.id}) }}"
-                                           class="btn btn-sm btn-outline-danger"
-                                           onclick="return confirm('Supprimer cet employé ?')">
-                                            Supprimer
+                                    <td class="text-end d-flex gap-2 justify-content-end">
+                                        <a href="{{ path('app_admin_employe_toggle', {id: employe.id}) }}"
+                                           class="btn btn-sm {{ employe.actif ? 'btn-outline-warning' : 'btn-outline-success' }}"
+                                           aria-label="{{ employe.actif ? 'Désactiver' : 'Activer' }} le compte de {{ employe.prenom }} {{ employe.nom }}">
+                                            {{ employe.actif ? 'Désactiver' : 'Activer' }}
                                         </a>
                                     </td>
                                 </tr>

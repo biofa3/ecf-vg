@@ -16,7 +16,7 @@
                         </div>
                     {% endif %}
 
-                    <form method="post">
+                    <form method="post" aria-label="Formulaire de connexion">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email"
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="text-center mt-3">
-                            <a href="#">Mot de passe oublié ?</a>
+                            <a href="{{ path('app_contact') }}">Mot de passe oublié ? Contactez-nous</a>
                         </div>
 
                         <div class="text-center mt-2">

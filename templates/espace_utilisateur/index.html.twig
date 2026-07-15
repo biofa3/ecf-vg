@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="user"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">{{ app.user.prenom }} {{ app.user.nom }}</h6>
+                    <small class="text-muted">{{ app.user.email }}</small>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom">
+                    <a href="{{ path('app_espace_utilisateur') }}" class="list-group-item list-group-item-action active mt-2">
+                        <i data-feather="shopping-bag" class="me-2"></i> Mes commandes
+                    </a>
+                    <a href="{{ path('app_utilisateur_profil') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="settings" class="me-2"></i> Mon profil
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('warning') %}
+                <div class="alert alert-warning">{{ message }}</div>
+            {% endfor %}
+
+            <h2 class="fw-bold mb-4 mt-3">Mes commandes</h2>
+
+            {% if commandes is empty %}
+                <div class="card border-0 shadow-sm text-center py-5">
+                    <p class="text-muted mb-0">Vous n'avez pas encore de commande.</p>
+                </div>
+            {% else %}
+                <div class="card border-0 shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>N° Commande</th>
+                                    <th>Menu</th>
+                                    <th>Date prestation</th>
+                                    <th>Total</th>
+                                    <th>Statut</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for commande in commandes %}
+                                <tr>
+                                    <td><small class="text-muted">{{ commande.numeroCommande }}</small></td>
+                                    <td>{{ commande.menu.titre }}</td>
+                                    <td>{{ commande.datePrestation ? commande.datePrestation|date('d/m/Y') : '-' }}</td>
+                                    <td>{{ (commande.prixMenu + commande.prixLivraison)|number_format(2, ',', ' ') }} €</td>
+                                    <td>
+                                        <span class="badge {% if commande.statut == 'en attente' %}bg-warning text-dark{% elseif commande.statut == 'confirmée' %}bg-info{% elseif commande.statut == 'en préparation' %}bg-primary{% elseif commande.statut == 'livrée' %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ commande.statut }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_utilisateur_commande_detail', {id: commande.id}) }}"
+                                           class="btn btn-sm btn-outline-dark me-1" aria-label="Voir le détail de la commande {{ commande.numeroCommande }}">
+                                            Détail
+                                        </a>
+                                        {% if commande.statut == 'terminée' and commande.avis is null %}
+                                            <a href="{{ path('app_utilisateur_avis', {id: commande.id}) }}" class="btn btn-sm btn-outline-primary">
+                                                Laisser un avis
+                                            </a>
+                                        {% elseif commande.avis is not null %}
+                                            <span class="text-success small"><i data-feather="check-circle" style="width:14px"></i> Avis déposé</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

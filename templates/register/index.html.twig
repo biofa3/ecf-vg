@@ -10,7 +10,7 @@
                 <div class="card-body p-4">
                     <h1 class="card-title text-center mb-4">Créer un compte</h1>
 
-                    {{ form_start(form) }}
+                    {{ form_start(form, {'attr': {'aria-label': "Formulaire d'inscription", 'novalidate': 'novalidate'}}) }}
 
                         <div class="mb-3">
                             {{ form_label(form.nom) }}

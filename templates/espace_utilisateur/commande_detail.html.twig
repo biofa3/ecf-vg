@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+{% block title %}Commande {{ commande.numeroCommande }} — Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        {# Sidebar #}
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="user" aria-hidden="true"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">{{ app.user.prenom }} {{ app.user.nom }}</h6>
+                    <small class="text-muted">{{ app.user.email }}</small>
+                </div>
+                <nav class="list-group list-group-flush rounded-bottom" aria-label="Navigation espace utilisateur">
+                    <a href="{{ path('app_espace_utilisateur') }}" class="list-group-item list-group-item-action active">
+                        <i data-feather="shopping-bag" class="me-2" aria-hidden="true"></i> Mes commandes
+                    </a>
+                    <a href="{{ path('app_utilisateur_profil') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="settings" class="me-2" aria-hidden="true"></i> Mon profil
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2" aria-hidden="true"></i> Déconnexion
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        {# Contenu #}
+        <div class="col-md-9">
+            {% for msg in app.flashes('success') %}<div class="alert alert-success">{{ msg }}</div>{% endfor %}
+            {% for msg in app.flashes('warning') %}<div class="alert alert-warning">{{ msg }}</div>{% endfor %}
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0">Commande {{ commande.numeroCommande }}</h2>
+                <a href="{{ path('app_espace_utilisateur') }}" class="btn btn-outline-secondary btn-sm">
+                    <i data-feather="arrow-left" style="width:14px" aria-hidden="true"></i> Retour
+                </a>
+            </div>
+
+            {# Détail de la commande #}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-dark text-white fw-bold">Détail de la commande</div>
+                <div class="card-body p-0">
+                    <table class="table table-sm mb-0">
+                        <tbody>
+                            <tr><td class="text-muted ps-3">Menu</td><td class="fw-bold">{{ commande.menu.titre }}</td></tr>
+                            <tr><td class="text-muted ps-3">Date de prestation</td><td>{{ commande.datePrestation|date('d/m/Y') }}</td></tr>
+                            {% if commande.heureLivraison %}<tr><td class="text-muted ps-3">Heure de livraison</td><td>{{ commande.heureLivraison }}</td></tr>{% endif %}
+                            <tr><td class="text-muted ps-3">Ville</td><td>{{ commande.ville }}</td></tr>
+                            <tr><td class="text-muted ps-3">Nombre de personnes</td><td>{{ commande.nombrePersonne }}</td></tr>
+                            <tr><td class="text-muted ps-3">Prix du menu</td><td>{{ commande.prixMenu|number_format(2, ',', ' ') }} €</td></tr>
+                            <tr><td class="text-muted ps-3">Frais de livraison</td><td>{% if commande.prixLivraison > 0 %}{{ commande.prixLivraison|number_format(2, ',', ' ') }} €{% else %}Gratuit{% endif %}</td></tr>
+                            <tr class="table-primary"><td class="ps-3 fw-bold">Total</td><td class="fw-bold fs-5 text-primary">{{ (commande.prixMenu + commande.prixLivraison)|number_format(2, ',', ' ') }} €</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {# Statut #}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-dark text-white fw-bold">Statut actuel</div>
+                <div class="card-body">
+                    {% set s = commande.statut %}
+                    <span class="badge fs-6
+                        {% if s == 'en attente' %}bg-warning text-dark
+                        {% elseif s == 'acceptée' %}bg-info
+                        {% elseif s == 'en préparation' %}bg-primary
+                        {% elseif s == 'en cours de livraison' %}bg-primary
+                        {% elseif s == 'terminée' %}bg-success
+                        {% elseif s == 'annulée' %}bg-danger
+                        {% else %}bg-secondary{% endif %}">
+                        {{ s }}
+                    </span>
+
+                    {% if s == 'en attente' %}
+                    <div class="mt-3 d-flex gap-2">
+                        <a href="{{ path('app_utilisateur_commande_modifier', {id: commande.id}) }}" class="btn btn-warning btn-sm">
+                            <i data-feather="edit-2" style="width:14px" aria-hidden="true"></i> Modifier
+                        </a>
+                        <form method="post" action="{{ path('app_utilisateur_commande_annuler', {id: commande.id}) }}"
+                              onsubmit="return confirm('Confirmer l\'annulation de cette commande ?')">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i data-feather="x-circle" style="width:14px" aria-hidden="true"></i> Annuler la commande
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    {% if s == 'terminée' and commande.avis is null %}
+                    <div class="mt-3">
+                        <a href="{{ path('app_utilisateur_avis', {id: commande.id}) }}" class="btn btn-outline-primary btn-sm">
+                            <i data-feather="star" style="width:14px" aria-hidden="true"></i> Laisser un avis
+                        </a>
+                    </div>
+                    {% elseif commande.avis is not null %}
+                    <p class="text-success mt-2 mb-0 small">
+                        <i data-feather="check-circle" style="width:14px" aria-hidden="true"></i>
+                        Avis déposé — {{ commande.avis.statut }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Suivi de commande — visible dès que statut != "en attente" #}
+            {% if commande.historiques is not empty %}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-dark text-white fw-bold">
+                    <i data-feather="clock" style="width:16px" aria-hidden="true"></i> Suivi de la commande
+                </div>
+                <div class="card-body pb-1">
+                    <ol class="list-group list-group-flush" aria-label="Historique des statuts">
+                        {% for h in commande.historiques %}
+                        <li class="list-group-item px-0">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                                     style="width:32px;height:32px" aria-hidden="true">
+                                    <i data-feather="check" style="width:14px;color:white"></i>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">{{ h.statut|capitalize }}</span>
+                                    <br>
+                                    <small class="text-muted">
+                                        <i data-feather="calendar" style="width:12px" aria-hidden="true"></i>
+                                        {{ h.dateChangement|date('d/m/Y à H:i') }}
+                                    </small>
+                                    {% if h.commentaire %}
+                                    <br><small class="text-secondary fst-italic">{{ h.commentaire }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

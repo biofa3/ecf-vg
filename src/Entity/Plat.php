@@ -22,6 +22,9 @@ class Plat
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private mixed $photo = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $ingredients = null;
+
     /**
      * @var Collection<int, Menu>
      */
@@ -43,6 +46,17 @@ class Plat
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getIngredients(): ?string
+    {
+        return $this->ingredients;
+    }
+
+    public function setIngredients(?string $ingredients): static
+    {
+        $this->ingredients = $ingredients;
+        return $this;
     }
 
     public function getTitrePlat(): ?string

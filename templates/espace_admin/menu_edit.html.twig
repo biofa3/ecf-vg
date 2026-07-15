@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ menu.titre }} - Administration{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                        <i data-feather="shield"></i>
+                    </div>
+                    <h6 class="fw-bold mb-0">Administration</h6>
+                    <small class="text-muted">{{ app.user.prenom }} {{ app.user.nom }}</small>
+                </div>
+                <div class="list-group list-group-flush rounded-bottom">
+                    <a href="{{ path('app_espace_admin') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="bar-chart-2" class="me-2"></i> Tableau de bord
+                    </a>
+                    <a href="{{ path('app_admin_commandes') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="shopping-bag" class="me-2"></i> Commandes
+                    </a>
+                    <a href="{{ path('app_admin_menus') }}" class="list-group-item list-group-item-action active">
+                        <i data-feather="book-open" class="me-2"></i> Menus
+                    </a>
+                    <a href="{{ path('app_admin_employe_new') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="user-plus" class="me-2"></i> Créer un employé
+                    </a>
+                    <a href="{{ path('app_admin_avis') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="star" class="me-2"></i> Avis clients
+                    </a>
+                    <a href="{{ path('app_admin_stats') }}" class="list-group-item list-group-item-action">
+                        <i data-feather="pie-chart" class="me-2"></i> Statistiques
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
+                        <i data-feather="log-out" class="me-2"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="d-flex align-items-center gap-3 mb-4 mt-3">
+                <a href="{{ path('app_admin_menus') }}" class="btn btn-outline-secondary btn-sm">
+                    &larr; Retour aux menus
+                </a>
+                <h2 class="fw-bold mb-0">Modifier : {{ menu.titre }}</h2>
+            </div>
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'aria-label': 'Formulaire de modification du menu ' ~ menu.titre}}) }}
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            {{ form_label(form.titre, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.titre) }}
+                        </div>
+
+                        <div class="col-12">
+                            {{ form_label(form.description, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">
+                                {{ form_label(form.conditions) }}
+                            </label>
+                            <div class="alert alert-info py-2 mb-2 small">
+                                <i data-feather="info" style="width:14px" aria-hidden="true"></i>
+                                Ces conditions seront affichées aux clients sur la fiche du menu et dans le formulaire de commande.
+                            </div>
+                            {{ form_widget(form.conditions, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.conditions) }}
+                        </div>
+
+                        <div class="col-md-4">
+                            {{ form_label(form.prix_par_personne, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(form.prix_par_personne, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.prix_par_personne) }}
+                        </div>
+
+                        <div class="col-md-4">
+                            {{ form_label(form.nombre_personne_minimum, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(form.nombre_personne_minimum, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.nombre_personne_minimum) }}
+                        </div>
+
+                        <div class="col-md-4">
+                            {{ form_label(form.quantite_restante, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(form.quantite_restante, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.quantite_restante) }}
+                        </div>
+
+                        <div class="col-md-6">
+                            {{ form_label(form.regime, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(form.regime, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(form.regime) }}
+                        </div>
+
+                        <div class="col-md-6">
+                            {{ form_label(form.theme, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(form.theme, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(form.theme) }}
+                        </div>
+
+                        <div class="col-12 pt-2">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i data-feather="save" style="width:16px" aria-hidden="true"></i>
+                                Enregistrer les modifications
+                            </button>
+                            <a href="{{ path('app_admin_menus') }}" class="btn btn-outline-secondary ms-2">Annuler</a>
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

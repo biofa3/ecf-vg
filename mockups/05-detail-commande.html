@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Détail commande - Vite &amp; Gourmand</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+  body { font-family: "Inter", "Segoe UI", Arial, sans-serif; }
+  .navbar-brand-logo { font-size:1.25rem; font-weight:700; color:#fff; text-decoration:none; letter-spacing:1px; }
+  .navbar-brand-logo span { color:#ffc107; }
+  .featurette-image { max-width:100%; border-radius:8px; }
+  .carousel-placeholder { background:#495057; height:500px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; }
+  .img-placeholder { background:#6c757d; display:flex; align-items:center; justify-content:center; color:#fff; border-radius:50%; font-size:.85rem; text-align:center; }
+  .img-placeholder-rect { background:#6c757d; display:flex; align-items:center; justify-content:center; color:#fff; font-size:.85rem; text-align:center; border-radius:8px 8px 0 0; }
+  .sidebar-link { display:block; padding:.5rem 1rem; color:#212529; text-decoration:none; border-bottom:1px solid #dee2e6; }
+  .sidebar-link:hover { background:#f8f9fa; }
+  .sidebar-link.active { background:#0d6efd; color:#fff; }
+  .badge-statut { font-size:.75rem; padding:.35em .65em; border-radius:50rem; }
+</style>
+</head>
+<body>
+
+<header data-bs-theme="dark">
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand-logo" href="#">VITE <span>&amp;</span> GOURMAND <small class="text-white-50 fw-normal fs-6 ms-2">Traiteur · Bordeaux</small></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav mx-auto mb-2 mb-md-0">
+          <li class="nav-item"><a class="nav-link" href="#">Accueil</a></li><li class="nav-item"><a class="nav-link" href="#">Nos menus</a></li><li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2">
+          <a href="#" class="text-white text-decoration-none small me-2"><i data-feather="user" style="width:16px"></i> Sophie</a><a href="#" class="text-white-50 text-decoration-none small">Déconnexion</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main style="padding-top:56px">
+
+<div class="container py-5">
+  <div class="row">
+
+<div class="col-md-3 mb-4">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body text-center py-4">
+      <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+        <i data-feather="user"></i>
+      </div>
+      <h6 class="fw-bold mb-0">Mon espace</h6>
+      <small class="text-muted">Sophie Bernard</small>
+    </div>
+    <div class="list-group list-group-flush rounded-bottom">
+      <a href="#" class="sidebar-link active"><i data-feather="shopping-bag" class="me-2" style="width:16px"></i>Mes commandes</a><a href="#" class="sidebar-link"><i data-feather="settings" class="me-2" style="width:16px"></i>Mon profil</a><a href="#" class="sidebar-link text-danger"><i data-feather="log-out" class="me-2" style="width:16px"></i>Déconnexion</a>
+    </div>
+  </div>
+</div>
+
+    <div class="col-md-9">
+      <h2 class="fw-bold mb-4 mt-3">Commande VG-2025-0042</h2>
+
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+          <span>Détails de la commande</span>
+          <span class="badge bg-warning text-dark">en attente</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <table class="table table-sm table-borderless">
+                <tr><th class="text-muted" style="width:50%">N° commande</th><td>VG-2025-0042</td></tr>
+                <tr><th class="text-muted">Menu</th><td>Menu Prestige</td></tr>
+                <tr><th class="text-muted">Date prestation</th><td>15/08/2025</td></tr>
+                <tr><th class="text-muted">Heure livraison</th><td>12h00</td></tr>
+                <tr><th class="text-muted">Ville</th><td>Bordeaux</td></tr>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="table table-sm table-borderless">
+                <tr><th class="text-muted" style="width:50%">Personnes</th><td>20</td></tr>
+                <tr><th class="text-muted">Sous-total</th><td>1 780,00 €</td></tr>
+                <tr><th class="text-muted">Réduction</th><td>0,00 €</td></tr>
+                <tr><th class="text-muted">Livraison</th><td>Offerte</td></tr>
+                <tr><th class="text-muted fw-bold">TOTAL</th><td class="fw-bold text-success fs-5">1 780,00 €</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="d-flex gap-2 mb-4">
+        <a href="#" class="btn btn-outline-primary">Modifier la commande</a>
+        <button type="button" class="btn btn-outline-danger">Annuler la commande</button>
+      </div>
+
+      <!-- Historique -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light fw-semibold">Suivi de la commande</div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <span class="badge bg-warning text-dark me-2">en attente</span>
+                <small>Commande reçue, en attente de validation</small>
+              </div>
+              <small class="text-muted">01/07/2025 à 14h22</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="bg-dark text-white mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h6 class="fw-bold mb-3">Vite &amp; Gourmand</h6>
+        <p class="text-white-50 small mb-1">12 rue des Chartrons, 33000 Bordeaux</p>
+        <p class="text-white-50 small mb-1">05 56 00 00 00</p>
+        <p class="text-white-50 small">contact@vite-gourmand.fr</p>
+      </div>
+      <div class="col-md-4">
+        <h6 class="fw-bold mb-3">Horaires</h6>
+        <table class="table table-sm table-borderless mb-0 text-white-50 small">
+          <tr><td>Lundi – Vendredi</td><td>9h – 18h</td></tr>
+          <tr><td>Samedi</td><td>9h – 13h</td></tr>
+          <tr><td>Dimanche</td><td class="text-danger">Fermé</td></tr>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <h6 class="fw-bold mb-3">Navigation</h6>
+        <ul class="list-unstyled small">
+          <li><a href="#" class="text-white-50 text-decoration-none">Nos menus</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="border-secondary mt-3">
+    <p class="text-white-50 small mb-0 text-center">&copy; 2017–2024 Vite &amp; Gourmand &middot; <a href="#" class="text-white-50">CGV</a> &middot; <a href="#" class="text-white-50">CGU</a></p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>feather.replace();</script>
+</body></html>

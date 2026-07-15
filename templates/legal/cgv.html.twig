@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions Générales de Vente - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+            <nav aria-label="Fil d'ariane" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">CGV</li>
+                </ol>
+            </nav>
+
+            <h1 class="fw-bold mb-1">Conditions Générales de Vente</h1>
+            <p class="text-muted small mb-5">Dernière mise à jour : janvier 2024</p>
+
+            <section aria-labelledby="cgv-article1" class="mb-5">
+                <h2 id="cgv-article1" class="h5 fw-bold border-bottom pb-2 mb-3">Article 1 — Objet et champ d'application</h2>
+                <p>Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre la société <strong>Vite &amp; Gourmand</strong>, traiteur situé au 12 rue des Chartrons, 33000 Bordeaux (ci-après « le Prestataire »), et toute personne physique ou morale passant commande via le site ou par tout autre moyen (ci-après « le Client »).</p>
+                <p>Toute commande implique l'acceptation pleine et entière des présentes CGV.</p>
+            </section>
+
+            <section aria-labelledby="cgv-article2" class="mb-5">
+                <h2 id="cgv-article2" class="h5 fw-bold border-bottom pb-2 mb-3">Article 2 — Commandes</h2>
+                <p>Les commandes doivent être passées <strong>au minimum 48 heures à l'avance</strong> pour les menus standards, et <strong>7 jours à l'avance</strong> pour les prestations mariage et événements de plus de 30 personnes.</p>
+                <p>Toute commande est ferme et définitive à réception d'une confirmation écrite de la part du Prestataire. En l'absence de confirmation, la commande n'est pas engagée.</p>
+                <p>Le Prestataire se réserve le droit de refuser toute commande en cas de stock insuffisant ou d'impossibilité technique.</p>
+            </section>
+
+            <section aria-labelledby="cgv-article3" class="mb-5">
+                <h2 id="cgv-article3" class="h5 fw-bold border-bottom pb-2 mb-3">Article 3 — Tarifs</h2>
+                <p>Les tarifs affichés sur le site sont exprimés en euros TTC. Ils sont susceptibles d'être modifiés à tout moment ; les tarifs applicables sont ceux en vigueur au moment de la validation de la commande.</p>
+                <ul>
+                    <li>Le prix par personne est fixé par menu.</li>
+                    <li>Une <strong>réduction de 10 %</strong> est accordée à partir de 5 personnes supplémentaires au minimum requis.</li>
+                    <li>La livraison est <strong>gratuite à Bordeaux</strong>. Pour toute livraison hors Bordeaux, un supplément de <strong>5 € + 0,59 €/km</strong> s'applique.</li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="cgv-article4" class="mb-5">
+                <h2 id="cgv-article4" class="h5 fw-bold border-bottom pb-2 mb-3">Article 4 — Paiement</h2>
+                <p>Le règlement s'effectue lors de la livraison ou selon les modalités convenues par écrit. Pour les prestations supérieures à 500 €, un <strong>acompte de 30 %</strong> peut être demandé à la confirmation de commande.</p>
+                <p>En cas de non-paiement dans les délais, des pénalités de retard au taux légal en vigueur seront appliquées.</p>
+            </section>
+
+            <section aria-labelledby="cgv-article5" class="mb-5">
+                <h2 id="cgv-article5" class="h5 fw-bold border-bottom pb-2 mb-3">Article 5 — Livraison</h2>
+                <p>La livraison est assurée aux jours et horaires convenus lors de la commande. Le Prestataire ne pourra être tenu responsable de tout retard imputable à un cas de force majeure (intempéries, grève, accident de la route, etc.).</p>
+                <p>Le Client est tenu d'être présent ou d'avoir désigné un représentant lors de la livraison.</p>
+            </section>
+
+            <section aria-labelledby="cgv-article6" class="mb-5">
+                <h2 id="cgv-article6" class="h5 fw-bold border-bottom pb-2 mb-3">Article 6 — Annulation et rétractation</h2>
+                <p>Toute annulation doit être notifiée par écrit (email à <a href="mailto:contact@vite-gourmand.fr">contact@vite-gourmand.fr</a>) :</p>
+                <ul>
+                    <li><strong>Plus de 48h avant la prestation</strong> : annulation sans frais.</li>
+                    <li><strong>Entre 24h et 48h avant</strong> : 50 % du montant total dû.</li>
+                    <li><strong>Moins de 24h avant</strong> : 100 % du montant total dû.</li>
+                </ul>
+                <p>Conformément à l'article L. 221-28 du Code de la consommation, le droit de rétractation de 14 jours ne s'applique pas aux prestations de services liées à des activités de restauration devant être fournis à une date ou une période déterminée.</p>
+            </section>
+
+            <section aria-labelledby="cgv-article7" class="mb-5">
+                <h2 id="cgv-article7" class="h5 fw-bold border-bottom pb-2 mb-3">Article 7 — Allergènes</h2>
+                <p>Le Client est invité à signaler toute allergie ou intolérince alimentaire lors de la commande. Le Prestataire s'engage à en tenir compte dans les limites du possible, mais ne peut garantir une absence totale de contamination croisée dans ses locaux de préparation.</p>
+            </section>
+
+            <section aria-labelledby="cgv-article8" class="mb-5">
+                <h2 id="cgv-article8" class="h5 fw-bold border-bottom pb-2 mb-3">Article 8 — Litiges et droit applicable</h2>
+                <p>Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité. À défaut, le tribunal compétent de Bordeaux sera saisi.</p>
+                <p>Conformément aux articles L. 612-1 et suivants du Code de la consommation, le Client peut recourir gratuitement à un médiateur de la consommation.</p>
+            </section>
+
+            <div class="d-flex gap-3 mt-4 pt-4 border-top">
+                <a href="{{ path('app_cgu') }}" class="btn btn-outline-secondary">Consulter les CGU &rarr;</a>
+                <a href="{{ path('app_home') }}" class="btn btn-outline-dark">Retour à l'accueil</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

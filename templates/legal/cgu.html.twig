@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions Générales d'Utilisation - Vite & Gourmand{% endblock %}
+
+{% block body %}
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+            <nav aria-label="Fil d'ariane" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">CGU</li>
+                </ol>
+            </nav>
+
+            <h1 class="fw-bold mb-1">Conditions Générales d'Utilisation</h1>
+            <p class="text-muted small mb-5">Dernière mise à jour : janvier 2024</p>
+
+            <section aria-labelledby="cgu-article1" class="mb-5">
+                <h2 id="cgu-article1" class="h5 fw-bold border-bottom pb-2 mb-3">Article 1 — Objet</h2>
+                <p>Les présentes Conditions Générales d'Utilisation (CGU) ont pour objet de définir les modalités et conditions dans lesquelles <strong>Vite &amp; Gourmand</strong> met à disposition ses services en ligne, ainsi que les droits et obligations de tout utilisateur du site <strong>vite-gourmand.fr</strong>.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article2" class="mb-5">
+                <h2 id="cgu-article2" class="h5 fw-bold border-bottom pb-2 mb-3">Article 2 — Accès au site</h2>
+                <p>Le site est accessible librement à tout utilisateur disposant d'un accès à Internet. Les frais liés à cet accès (connexion, matériel) restent à la charge de l'utilisateur.</p>
+                <p>Certaines fonctionnalités (commande, espace personnel, dépôt d'avis) nécessitent la création d'un compte utilisateur.</p>
+                <p>Vite &amp; Gourmand se réserve le droit de suspendre ou d'interrompre l'accès au site à tout moment, notamment pour des opérations de maintenance.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article3" class="mb-5">
+                <h2 id="cgu-article3" class="h5 fw-bold border-bottom pb-2 mb-3">Article 3 — Création de compte</h2>
+                <p>La création d'un compte est gratuite. L'utilisateur s'engage à fournir des informations exactes et à les maintenir à jour. Il est responsable de la confidentialité de ses identifiants.</p>
+                <p>En cas d'utilisation frauduleuse de son compte, l'utilisateur doit en informer immédiatement Vite &amp; Gourmand à l'adresse <a href="mailto:contact@vite-gourmand.fr">contact@vite-gourmand.fr</a>.</p>
+                <p>Vite &amp; Gourmand se réserve le droit de suspendre ou supprimer tout compte en cas d'utilisation abusive, frauduleuse ou contraire aux présentes CGU.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article4" class="mb-5">
+                <h2 id="cgu-article4" class="h5 fw-bold border-bottom pb-2 mb-3">Article 4 — Données personnelles et RGPD</h2>
+                <p>Les données personnelles collectées (nom, prénom, adresse email) sont traitées conformément au <strong>Règlement Général sur la Protection des Données (RGPD)</strong> — Règlement UE 2016/679.</p>
+                <p><strong>Finalités du traitement :</strong></p>
+                <ul>
+                    <li>Gestion des commandes et de l'espace client</li>
+                    <li>Envoi d'emails transactionnels (confirmation, bienvenue)</li>
+                    <li>Amélioration du service</li>
+                </ul>
+                <p><strong>Base légale :</strong> exécution du contrat et consentement de l'utilisateur.</p>
+                <p><strong>Durée de conservation :</strong> les données sont conservées pendant la durée de la relation commerciale, puis 3 ans à compter de la dernière interaction.</p>
+                <p>Conformément à la loi Informatique et Libertés et au RGPD, vous disposez des droits suivants :</p>
+                <ul>
+                    <li>Droit d'accès à vos données</li>
+                    <li>Droit de rectification</li>
+                    <li>Droit à l'effacement (« droit à l'oubli »)</li>
+                    <li>Droit à la portabilité</li>
+                    <li>Droit d'opposition au traitement</li>
+                </ul>
+                <p>Pour exercer ces droits, contactez-nous à <a href="mailto:contact@vite-gourmand.fr">contact@vite-gourmand.fr</a> ou par courrier au 12 rue des Chartrons, 33000 Bordeaux. Vous pouvez également introduire une réclamation auprès de la <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">CNIL</a>.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article5" class="mb-5">
+                <h2 id="cgu-article5" class="h5 fw-bold border-bottom pb-2 mb-3">Article 5 — Avis clients</h2>
+                <p>Les utilisateurs ayant passé une commande livrée peuvent déposer un avis. Ces avis sont soumis à modération avant publication. Vite &amp; Gourmand se réserve le droit de refuser tout avis contenant des propos injurieux, diffamatoires ou hors sujet.</p>
+                <p>Les avis publiés reflètent l'opinion de leurs auteurs et n'engagent pas Vite &amp; Gourmand.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article6" class="mb-5">
+                <h2 id="cgu-article6" class="h5 fw-bold border-bottom pb-2 mb-3">Article 6 — Propriété intellectuelle</h2>
+                <p>L'ensemble du contenu du site (textes, images, logo, structure) est la propriété exclusive de Vite &amp; Gourmand ou de ses partenaires et est protégé par le droit de la propriété intellectuelle. Toute reproduction sans autorisation préalable est interdite.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article7" class="mb-5">
+                <h2 id="cgu-article7" class="h5 fw-bold border-bottom pb-2 mb-3">Article 7 — Responsabilité</h2>
+                <p>Vite &amp; Gourmand s'efforce de maintenir le site accessible et à jour, mais ne peut garantir une disponibilité permanente. La responsabilité de Vite &amp; Gourmand ne saurait être engagée en cas d'interruption de service, de perte de données ou de dommage indirect.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article8" class="mb-5">
+                <h2 id="cgu-article8" class="h5 fw-bold border-bottom pb-2 mb-3">Article 8 — Modification des CGU</h2>
+                <p>Vite &amp; Gourmand se réserve le droit de modifier les présentes CGU à tout moment. Les utilisateurs seront informés par email ou par une notification sur le site. L'utilisation continue du site après modification vaut acceptation des nouvelles CGU.</p>
+            </section>
+
+            <section aria-labelledby="cgu-article9" class="mb-5">
+                <h2 id="cgu-article9" class="h5 fw-bold border-bottom pb-2 mb-3">Article 9 — Droit applicable</h2>
+                <p>Les présentes CGU sont régies par le droit français. Tout litige relatif à leur interprétation ou leur exécution relève de la compétence des tribunaux de Bordeaux.</p>
+            </section>
+
+            <div class="d-flex gap-3 mt-4 pt-4 border-top">
+                <a href="{{ path('app_cgv') }}" class="btn btn-outline-secondary">Consulter les CGV &rarr;</a>
+                <a href="{{ path('app_home') }}" class="btn btn-outline-dark">Retour à l'accueil</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

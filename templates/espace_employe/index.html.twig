@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Espace Employé - Vite & Gourmand{% endblock %}
 
 {% block body %}
@@ -8,73 +7,160 @@
         <div class="col-md-3 mb-4">
             <div class="card border-0 shadow-sm">
                 <div class="card-body text-center py-4">
-                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;font-size:1.5rem;" aria-hidden="true">
                         <i data-feather="briefcase"></i>
                     </div>
                     <h6 class="fw-bold mb-0">Espace Employé</h6>
                     <small class="text-muted">{{ app.user.prenom }} {{ app.user.nom }}</small>
                 </div>
-                <div class="list-group list-group-flush rounded-bottom">
-                    <a href="{{ path('app_espace_employe') }}" class="list-group-item list-group-item-action active">
-                        <i data-feather="list" class="me-2"></i> Commandes
+                <nav class="list-group list-group-flush rounded-bottom" aria-label="Navigation espace employé">
+                    <a href="{{ path('app_espace_employe') }}" class="list-group-item list-group-item-action active" aria-current="page">
+                        <i data-feather="list" class="me-2" aria-hidden="true"></i> Commandes
                     </a>
                     <a href="{{ path('app_employe_menus') }}" class="list-group-item list-group-item-action">
-                        <i data-feather="book-open" class="me-2"></i> Menus
+                        <i data-feather="book-open" class="me-2" aria-hidden="true"></i> Menus
                     </a>
                     <a href="{{ path('app_employe_avis') }}" class="list-group-item list-group-item-action">
-                        <i data-feather="star" class="me-2"></i> Avis clients
+                        <i data-feather="star" class="me-2" aria-hidden="true"></i> Avis clients
                     </a>
                     <a href="{{ path('app_logout') }}" class="list-group-item list-group-item-action text-danger">
-                        <i data-feather="log-out" class="me-2"></i> Déconnexion
+                        <i data-feather="log-out" class="me-2" aria-hidden="true"></i> Déconnexion
                     </a>
-                </div>
+                </nav>
             </div>
         </div>
 
         <div class="col-md-9">
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% endfor %}
+            {% for msg in app.flashes('success') %}<div class="alert alert-success">{{ msg }}</div>{% endfor %}
+            {% for msg in app.flashes('danger') %}<div class="alert alert-danger">{{ msg }}</div>{% endfor %}
 
-            <h2 class="fw-bold mb-4">Gestion des commandes</h2>
+            <h2 class="fw-bold mb-3 mt-4">Gestion des commandes</h2>
+
+            {# Filtres #}
+            <form method="get" class="card border-0 shadow-sm p-3 mb-4" aria-label="Filtrer les commandes">
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-5">
+                        <label for="filtre-statut" class="form-label small fw-bold">Filtrer par statut</label>
+                        <select id="filtre-statut" name="statut" class="form-select form-select-sm">
+                            <option value="">— Tous les statuts —</option>
+                            {% for s in statuts %}
+                                <option value="{{ s }}" {% if filtreStatut == s %}selected{% endif %}>{{ s|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="filtre-client" class="form-label small fw-bold">Rechercher un client</label>
+                        <input type="text" id="filtre-client" name="client" class="form-control form-control-sm"
+                               placeholder="Nom, prénom ou email…" value="{{ filtreClient }}">
+                    </div>
+                    <div class="col-md-2 d-flex gap-1">
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Filtrer</button>
+                        <a href="{{ path('app_espace_employe') }}" class="btn btn-outline-secondary btn-sm" aria-label="Réinitialiser les filtres">✕</a>
+                    </div>
+                </div>
+            </form>
 
             {% if commandes is empty %}
                 <div class="card border-0 shadow-sm text-center py-5">
-                    <p class="text-muted">Aucune commande pour le moment.</p>
+                    <p class="text-muted">Aucune commande trouvée.</p>
                 </div>
             {% else %}
                 <div class="card border-0 shadow-sm">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
+                        <table class="table table-hover mb-0" aria-label="Liste des commandes">
+                            <thead class="table-dark">
                                 <tr>
-                                    <th>N° Commande</th>
-                                    <th>Client</th>
-                                    <th>Menu</th>
-                                    <th>Date prestation</th>
-                                    <th>Ville</th>
-                                    <th>Total</th>
-                                    <th>Statut</th>
+                                    <th scope="col">N°</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Menu</th>
+                                    <th scope="col">Prestation</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Statut actuel</th>
+                                    <th scope="col">Changer statut</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for commande in commandes %}
                                 <tr>
                                     <td><small class="text-muted">{{ commande.numeroCommande }}</small></td>
-                                    <td>{{ commande.utilisateur.prenom }} {{ commande.utilisateur.nom }}</td>
+                                    <td>
+                                        {{ commande.utilisateur.prenom }} {{ commande.utilisateur.nom }}<br>
+                                        <small class="text-muted">{{ commande.utilisateur.email }}</small>
+                                    </td>
                                     <td>{{ commande.menu.titre }}</td>
                                     <td>{{ commande.datePrestation|date('d/m/Y') }}</td>
-                                    <td>{{ commande.ville }}</td>
                                     <td>{{ (commande.prixMenu + commande.prixLivraison)|number_format(2, ',', ' ') }} €</td>
                                     <td>
-                                        <form method="post" action="{{ path('app_employe_statut', {id: commande.id}) }}" class="d-flex gap-1">
-                                            <select name="statut" class="form-select form-select-sm" style="width:auto">
-                                                {% for s in ['en attente', 'confirmée', 'en préparation', 'livrée', 'annulée'] %}
-                                                    <option value="{{ s }}" {% if commande.statut == s %}selected{% endif %}>{{ s }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <button type="submit" class="btn btn-sm btn-primary">OK</button>
-                                        </form>
+                                        {% set s = commande.statut %}
+                                        <span class="badge
+                                            {% if s == 'en attente' %}bg-warning text-dark
+                                            {% elseif s == 'acceptée' %}bg-info
+                                            {% elseif s in ['en préparation','en cours de livraison'] %}bg-primary
+                                            {% elseif s == 'terminée' %}bg-success
+                                            {% elseif s == 'annulée' %}bg-danger
+                                            {% else %}bg-secondary{% endif %}">
+                                            {{ s }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {# Bouton qui ouvre la modale #}
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalStatut{{ commande.id }}"
+                                                aria-label="Changer le statut de la commande {{ commande.numeroCommande }}">
+                                            Changer
+                                        </button>
+
+                                        {# Modale de changement de statut #}
+                                        <div class="modal fade" id="modalStatut{{ commande.id }}" tabindex="-1"
+                                             aria-labelledby="modalLabel{{ commande.id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-dark text-white">
+                                                        <h5 class="modal-title" id="modalLabel{{ commande.id }}">
+                                                            Commande {{ commande.numeroCommande }}
+                                                        </h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                                    </div>
+                                                    <form method="post" action="{{ path('app_employe_statut', {id: commande.id}) }}">
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label for="statut{{ commande.id }}" class="form-label fw-bold">Nouveau statut</label>
+                                                                <select id="statut{{ commande.id }}" name="statut" class="form-select statut-select">
+                                                                    {% for s in statuts %}
+                                                                        <option value="{{ s }}" {% if commande.statut == s %}selected{% endif %}>{{ s|capitalize }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+
+                                                            {# Champs contact — affichés uniquement si annulée sélectionné #}
+                                                            <div class="contact-fields" style="display:none">
+                                                                <div class="alert alert-warning small">
+                                                                    <strong>Contact obligatoire</strong> avant toute annulation.
+                                                                    Vous devez avoir contacté le client et renseigner ci-dessous.
+                                                                </div>
+                                                                <div class="mb-2">
+                                                                    <label class="form-label">Mode de contact</label>
+                                                                    <select name="mode_contact" class="form-select form-select-sm">
+                                                                        <option value="Appel GSM">Appel GSM</option>
+                                                                        <option value="Email">Email</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-2">
+                                                                    <label class="form-label">Motif <span class="text-danger">*</span></label>
+                                                                    <textarea name="motif" class="form-control form-control-sm" rows="3"
+                                                                              placeholder="Expliquez le motif de l'annulation…"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                            <button type="submit" class="btn btn-primary">Valider</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -86,4 +172,14 @@
         </div>
     </div>
 </div>
+
+<script>
+// Afficher les champs contact/motif si statut = annulée
+document.querySelectorAll('.statut-select').forEach(function(sel) {
+    sel.addEventListener('change', function() {
+        var fields = this.closest('form').querySelector('.contact-fields');
+        fields.style.display = this.value === 'annulée' ? 'block' : 'none';
+    });
+});
+</script>
 {% endblock %}

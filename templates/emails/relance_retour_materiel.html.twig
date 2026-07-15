@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #212529; }
+        .wrapper { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 4px; overflow: hidden; }
+        .header { background: #212529; padding: 24px 32px; }
+        .header h1 { color: #ffffff; font-size: 20px; margin: 0; }
+        .header p { color: #adb5bd; font-size: 13px; margin: 4px 0 0; }
+        .body { padding: 32px; }
+        .body p { font-size: 14px; line-height: 1.6; margin: 0 0 14px; }
+        .highlight { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; margin: 20px 0; border-radius: 0 4px 4px 0; }
+        .highlight strong { color: #856404; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        table td { padding: 8px 10px; border-bottom: 1px solid #dee2e6; }
+        table td:first-child { color: #6c757d; width: 45%; }
+        .footer { background: #212529; padding: 16px 32px; }
+        .footer p { color: #6c757d; font-size: 12px; margin: 0; }
+        .btn { display: inline-block; background: #198754; color: #ffffff; padding: 10px 24px; text-decoration: none; border-radius: 4px; font-size: 14px; font-weight: bold; margin-top: 8px; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+
+    <div class="header">
+        <h1>Vite &amp; Gourmand</h1>
+        <p>Traiteur Bordelais · 12 rue des Chartrons, 33000 Bordeaux</p>
+    </div>
+
+    <div class="body">
+        <p>Bonjour {{ client.prenom }} {{ client.nom }},</p>
+
+        <p>
+            Nous espérons que votre prestation s'est déroulée à votre satisfaction.
+            Nous revenons vers vous concernant la restitution du matériel prêté
+            dans le cadre de votre commande.
+        </p>
+
+        <div class="highlight">
+            <strong>⚠ Rappel : le matériel n'a pas encore été restitué</strong><br>
+            Cela fait plus de {{ jours }} jours que votre commande est passée au statut
+            « en attente du retour de matériel ». Merci de prendre contact avec nous
+            pour organiser la restitution dans les meilleurs délais.
+        </div>
+
+        <p><strong>Détails de votre commande :</strong></p>
+
+        <table>
+            <tr>
+                <td>Numéro de commande</td>
+                <td><strong>{{ commande.numeroCommande }}</strong></td>
+            </tr>
+            <tr>
+                <td>Date de prestation</td>
+                <td>{{ commande.datePrestation|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <td>Menu commandé</td>
+                <td>{{ commande.menu.titre }}</td>
+            </tr>
+            <tr>
+                <td>Statut actuel</td>
+                <td>{{ commande.statut }}</td>
+            </tr>
+        </table>
+
+        <p>
+            Pour organiser la restitution ou si vous avez déjà rendu le matériel,
+            contactez-nous directement par email ou par téléphone.
+        </p>
+
+        <a href="mailto:contact@vite-gourmand.fr" class="btn">Nous contacter</a>
+
+        <p style="margin-top: 28px;">
+            Cordialement,<br>
+            <strong>L'équipe Vite &amp; Gourmand</strong>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>05 56 00 00 00 · contact@vite-gourmand.fr · 12 rue des Chartrons, 33000 Bordeaux</p>
+        <p style="margin-top: 6px;">Cet email a été envoyé automatiquement. Merci de ne pas répondre directement à ce message.</p>
+    </div>
+
+</div>
+</body>
+</html>

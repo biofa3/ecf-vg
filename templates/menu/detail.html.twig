@@ -4,14 +4,44 @@
 
 {% block body %}
 <div class="container mt-5">
-    <a href="{{ path('app_menus') }}" class="btn btn-secondary mb-4">
+    <a href="{{ path('app_menus') }}" class="btn btn-secondary mb-4 mt-4">
         &larr; Retour aux menus
     </a>
 
     <div class="card shadow-sm">
-        {% if menu.image %}
-            <img src="{{ menu.image }}" class="card-img-top" alt="{{ menu.titre }}" style="height:350px;object-fit:cover;">
+
+        {% if menu.images|length > 0 %}
+        <div id="galerieMenu" class="carousel slide" data-bs-ride="carousel" aria-label="Galerie photos du menu {{ menu.titre }}">
+            <div class="carousel-indicators">
+                {% for i, img in menu.images %}
+                <button type="button" data-bs-target="#galerieMenu" data-bs-slide-to="{{ i }}"
+                    {% if i == 0 %}class="active" aria-current="true"{% endif %}
+                    aria-label="Image {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+                {% for i, img in menu.images %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <img src="{{ img.url }}" class="d-block w-100" alt="{{ img.alt }}"
+                         style="height:420px;object-fit:cover;">
+                </div>
+                {% endfor %}
+            </div>
+            {% if menu.images|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#galerieMenu" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#galerieMenu" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
+            {% endif %}
+        </div>
+        {% elseif menu.image %}
+            <img src="{{ menu.image }}" class="card-img-top" alt="{{ menu.titre }}" style="height:420px;object-fit:cover;">
         {% endif %}
+
         <div class="card-body">
             <h1 class="card-title">{{ menu.titre }}</h1>
 
@@ -47,11 +77,15 @@
                     <ul class="list-group list-group-flush">
                         {% for plat in menu.plats %}
                         <li class="list-group-item">
-                            {{ plat.titrePlat }}
+                            <strong>{{ plat.titrePlat }}</strong>
+                            {% if plat.ingredients %}
+                            <br><small class="text-muted"><i data-feather="list" style="width:12px" aria-hidden="true"></i> {{ plat.ingredients }}</small>
+                            {% endif %}
                             {% if plat.allergenes|length > 0 %}
                             <br>
-                            <small class="text-muted">
-                                Allergènes : 
+                            <small class="text-danger">
+                                <i data-feather="alert-triangle" style="width:12px" aria-hidden="true"></i>
+                                <span class="visually-hidden">Attention, allergènes présents : </span>Allergènes :
                                 {% for allergene in plat.allergenes %}
                                     {{ allergene.libelle }}{% if not loop.last %}, {% endif %}
                                 {% endfor %}
@@ -66,17 +100,27 @@
 
             <hr>
 
+            {% if menu.conditions %}
+            <div class="border border-warning rounded p-3 mt-3 bg-warning bg-opacity-10">
+                <h5 class="text-warning fw-bold mb-2">
+                    <i data-feather="alert-triangle" style="width:18px" aria-hidden="true"></i>
+                    Conditions importantes
+                </h5>
+                <p class="mb-0" style="white-space: pre-line;">{{ menu.conditions }}</p>
+            </div>
+            {% else %}
             <div class="alert alert-warning mt-3">
                 <strong>Conditions importantes :</strong> Pensez à commander ce menu suffisamment à l'avance.
             </div>
+            {% endif %}
 
             <div class="d-grid mt-4">
                 {% if app.user %}
-                   <a href="{{ path('app_commande', {menuId: menu.id}) }}" class="btn btn-primary btn-lg">
+                   <a href="{{ path('app_commande', {menuId: menu.id}) }}" class="btn btn-primary btn-lg" aria-label="Commander le menu {{ menu.titre }}">
                     Commander ce menu
                     </a>
                 {% else %}
-                    <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">
+                    <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg" aria-label="Se connecter pour commander le menu {{ menu.titre }}">
                         Connectez-vous pour commander
                     </a>
                 {% endif %}
