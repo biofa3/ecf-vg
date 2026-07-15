@@ -1,4 +1,4 @@
-# Vite & Gourmand — Guide de déploiement local
+﻿# Vite & Gourmand — Guide de déploiement local
 
 Application web de commande en ligne pour un traiteur bordelais, développée dans le cadre de l'ECF de la formation Développeur Web Full Stack.
 
